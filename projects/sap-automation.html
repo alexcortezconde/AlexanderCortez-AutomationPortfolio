@@ -75,19 +75,108 @@
         }
     </script>
 <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        body { background-color: #001524; color: #d0e5fa; font-family: 'Inter', sans-serif; }
+        .glass-panel { background: rgba(35,55,71,0.4); backdrop-filter: blur(16px); border: 1px solid rgba(66,71,77,0.15); }
+
+        /* ── Automation Flow ─────────────────────── */
+        .fn-wrap  { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
+        .fn-track {
+            display: flex; align-items: flex-start;
+            min-width: 620px; padding: 28px 8px 12px; gap: 0;
         }
-        body {
-            background-color: #001524;
-            color: #d0e5fa;
-            font-family: 'Inter', sans-serif;
+        .fn-node {
+            display: flex; flex-direction: column; align-items: center;
+            flex-shrink: 0; width: 112px;
+            opacity: 0.2; transition: opacity 0.55s ease;
+            position: relative;
         }
-        .glass-panel {
-            background: rgba(35, 55, 71, 0.4);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(66, 71, 77, 0.15);
+        .fn-node.fn-active { opacity: 1; }
+
+        .fn-icon {
+            width: 64px; height: 64px; border-radius: 16px;
+            background: #00101c;
+            border: 1px solid rgba(165,203,234,0.1);
+            display: flex; align-items: center; justify-content: center;
+            transition: box-shadow 0.6s ease, border-color 0.6s ease;
+            position: relative; overflow: hidden;
         }
+        /* per-node glow colors */
+        #fn-clock.fn-active  .fn-icon { box-shadow: 0 0 24px rgba(255,182,137,.5); border-color: rgba(255,182,137,.4); }
+        #fn-robot.fn-active  .fn-icon { box-shadow: 0 0 24px rgba(165,203,234,.5); border-color: rgba(165,203,234,.4); }
+        #fn-sap.fn-active    .fn-icon { box-shadow: 0 0 24px rgba(143,209,222,.5); border-color: rgba(143,209,222,.4); }
+        #fn-excel.fn-active  .fn-icon { box-shadow: 0 0 24px rgba(255,182,137,.5); border-color: rgba(255,182,137,.4); }
+        #fn-s3.fn-complete   .fn-icon {
+            box-shadow: 0 0 32px rgba(165,203,234,.6), 0 0 64px rgba(143,209,222,.2);
+            border-color: rgba(165,203,234,.6);
+        }
+        /* S3 ripple on complete */
+        #fn-s3.fn-complete .fn-icon::after {
+            content: ''; position: absolute; inset: -6px;
+            border-radius: 20px; border: 1.5px solid rgba(165,203,234,.4);
+            animation: ripple 0.9s ease-out 0.2s 2;
+        }
+        @keyframes ripple { 0% { transform: scale(1); opacity:.8; } 100% { transform: scale(1.5); opacity:0; } }
+
+        .fn-title {
+            font-family: 'Space Grotesk', sans-serif; font-weight: 900;
+            font-size: 10px; text-transform: uppercase; letter-spacing: .1em;
+            margin-top: 10px; text-align: center; line-height: 1.3;
+        }
+        .fn-sub { font-size: 9px; color: rgba(194,199,205,.55); text-align: center; margin-top: 3px; line-height: 1.4; }
+
+        /* typing dots under SAP */
+        .fn-typing { display: flex; gap: 4px; justify-content: center; height: 10px; margin-top: 5px; }
+        .fn-typing span {
+            width: 4px; height: 4px; border-radius: 50%;
+            background: #8fd1de; opacity: 0; transform: translateY(0);
+        }
+        #fn-sap.fn-active .fn-typing span:nth-child(1) { animation: typedot .55s ease-in-out .05s 4; }
+        #fn-sap.fn-active .fn-typing span:nth-child(2) { animation: typedot .55s ease-in-out .22s 4; }
+        #fn-sap.fn-active .fn-typing span:nth-child(3) { animation: typedot .55s ease-in-out .39s 4; }
+        @keyframes typedot {
+            0%,100% { opacity:0; transform:translateY(0); }
+            50%     { opacity:1; transform:translateY(-4px); }
+        }
+
+        /* ── Connectors ── */
+        .fn-conn {
+            flex: 1; position: relative; min-width: 32px;
+            height: 64px; display: flex; align-items: center;
+        }
+        .fn-line {
+            position: absolute; left: 0; right: 0; top: 50%;
+            height: 1px; background: rgba(165,203,234,.1);
+        }
+        .fn-dot {
+            position: absolute; top: 50%; left: 0%;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: #a5cbea;
+            box-shadow: 0 0 8px #a5cbea, 0 0 18px rgba(165,203,234,.5);
+            transform: translate(-50%,-50%);
+            opacity: 0; pointer-events: none;
+        }
+        .fn-dot.dot-run { animation: dotgo .62s cubic-bezier(.4,0,.2,1) forwards; }
+        @keyframes dotgo {
+            0%   { left:0%;   opacity:0; }
+            8%   { opacity:1; }
+            92%  { opacity:1; }
+            100% { left:100%; opacity:0; }
+        }
+
+        /* robot blink on activate */
+        .fn-blinking .fn-icon { animation: rblink .22s ease-in-out 4; }
+        @keyframes rblink {
+            0%,100% { background: #00101c; }
+            50%     { background: rgba(165,203,234,.22); }
+        }
+
+        @keyframes cursorblink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        /* step descriptions row */
+        .fn-desc-row { display:flex; min-width:620px; }
+        .fn-desc { flex-shrink:0; width:112px; padding: 0 4px; }
+        .fn-desc-gap { flex:1; }
     </style>
 </head>
 <body class="selection:bg-tertiary/30">
@@ -108,175 +197,412 @@
 </div>
 </nav>
 <main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
-<!-- Back Navigation -->
-<a class="group flex items-center gap-2 text-tertiary mb-12 hover:translate-x-[-4px] transition-transform duration-300" href="../projects.html">
-<span class="material-symbols-outlined text-sm">arrow_back</span>
-<span class="font-label text-xs tracking-widest uppercase font-bold">Back to Projects</span>
-</a>
-<!-- Project Hero Section -->
-<header class="mb-20">
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
-<div class="max-w-3xl">
-<span class="font-label text-tertiary text-sm font-bold tracking-[0.2em] uppercase mb-4 block">RPA Case Study</span>
-<h1 class="font-headline text-5xl md:text-7xl font-black tracking-tighter leading-none text-on-surface mb-6">
-                        SAP Data Extraction <br/> &amp; <span class="text-secondary">&amp; S3 Orchestration</span>
-</h1>
-</div>
-<div class="flex gap-4 mb-2">
-<div class="flex flex-col items-end">
-<span class="text-primary text-3xl font-headline font-bold">90%</span>
-<span class="text-on-surface-variant text-[10px] uppercase tracking-widest">Manual Effort Reduction</span>
-</div>
-</div>
-</div>
-<div class="h-1 w-32 bg-gradient-to-r from-tertiary to-transparent mt-8"></div>
-</header>
-<!-- Bento Grid Layout -->
-<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-<!-- Project Overview -->
-<section class="md:col-span-8 glass-panel p-8 rounded-xl">
-<h2 class="font-headline text-2xl font-bold text-primary mb-6 flex items-center gap-3">
-<span class="material-symbols-outlined">terminal</span> Project Overview
-                </h2>
-<p class="font-body text-on-surface-variant leading-relaxed text-lg mb-6">
-                    Legacy financial reporting at the enterprise level often suffers from manual data retrieval bottlenecks. This project aimed to automate the end-to-end extraction of mission-critical data from <span class="text-secondary font-semibold">SAP ERP</span> and orchestrate its delivery into a cloud-native <span class="text-secondary font-semibold">AWS S3</span> data lake.
-                </p>
-<p class="font-body text-on-surface-variant leading-relaxed">
-                    By eliminating manual spreadsheet exports and FTP transfers, we established a high-integrity pipeline that feeds downstream AI models with real-time operational metrics.
-                </p>
-</section>
-<!-- Technical Stack -->
-<section class="md:col-span-4 bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
-<h2 class="font-headline text-xl font-bold text-primary mb-8">Technical Stack</h2>
-<ul class="space-y-6">
-<li class="flex items-center gap-4">
-<div class="w-10 h-10 rounded bg-primary-container flex items-center justify-center text-primary">
-<span class="material-symbols-outlined">robot_2</span>
-</div>
-<div>
-<p class="text-sm font-bold text-on-surface">UiPath</p>
-<p class="text-xs text-on-surface-variant">Core RPA Engine</p>
-</div>
-</li>
-<li class="flex items-center gap-4">
-<div class="w-10 h-10 rounded bg-secondary-container flex items-center justify-center text-secondary">
-<span class="material-symbols-outlined">database</span>
-</div>
-<div>
-<p class="text-sm font-bold text-on-surface">SAP ERP</p>
-<p class="text-xs text-on-surface-variant">System of Record</p>
-</div>
-</li>
-<li class="flex items-center gap-4">
-<div class="w-10 h-10 rounded bg-tertiary-container flex items-center justify-center text-tertiary">
-<span class="material-symbols-outlined">code</span>
-</div>
-<div>
-<p class="text-sm font-bold text-on-surface">Python</p>
-<p class="text-xs text-on-surface-variant">AWS SDK Integration</p>
-</div>
-</li>
-<li class="flex items-center gap-4">
-<div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center text-on-surface">
-<span class="material-symbols-outlined">cloud</span>
-</div>
-<div>
-<p class="text-sm font-bold text-on-surface">AWS S3</p>
-<p class="text-xs text-on-surface-variant">Cloud Orchestration</p>
-</div>
-</li>
-</ul>
-</section>
-<!-- Automation Flow -->
-<section class="md:col-span-12 glass-panel p-10 rounded-xl relative overflow-hidden">
-<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/5 blur-[100px]"></div>
-<h2 class="font-headline text-2xl font-bold text-primary mb-12">Automation Flow</h2>
-<div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-<!-- Step 1 -->
-<div class="flex flex-col gap-4">
-<div class="text-tertiary font-headline font-black text-4xl opacity-30">01</div>
-<h3 class="text-on-surface font-bold uppercase tracking-tight text-sm">Connect to SAP</h3>
-<p class="text-on-surface-variant text-sm">Secure handshake via UiPath SAP Activities with encrypted credential vaulting.</p>
-</div>
-<!-- Step 2 -->
-<div class="flex flex-col gap-4">
-<div class="text-tertiary font-headline font-black text-4xl opacity-30">02</div>
-<h3 class="text-on-surface font-bold uppercase tracking-tight text-sm">Input Parameters</h3>
-<p class="text-on-surface-variant text-sm">Dynamic query injection based on periodic schedules or manual trigger payloads.</p>
-</div>
-<!-- Step 3 -->
-<div class="flex flex-col gap-4">
-<div class="text-tertiary font-headline font-black text-4xl opacity-30">03</div>
-<h3 class="text-on-surface font-bold uppercase tracking-tight text-sm">Extract Report</h3>
-<p class="text-on-surface-variant text-sm">Background processing of ALV grids and spool files into Parquet format.</p>
-</div>
-<!-- Step 4 -->
-<div class="flex flex-col gap-4">
-<div class="text-tertiary font-headline font-black text-4xl opacity-30">04</div>
-<h3 class="text-on-surface font-bold uppercase tracking-tight text-sm">Upload to S3</h3>
-<p class="text-on-surface-variant text-sm">Python-orchestrated Boto3 upload with multi-part support for large datasets.</p>
-</div>
-</div>
-</section>
-<!-- Logic Terminal / Code Snippet -->
-<section class="md:col-span-7 bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/20">
-<div class="bg-surface-container-highest px-4 py-2 flex items-center justify-between">
-<div class="flex gap-2">
-<div class="w-3 h-3 rounded-full bg-[#ffecd1]"></div>
-<div class="w-3 h-3 rounded-full bg-[#ffb689]"></div>
-<div class="w-3 h-3 rounded-full bg-[#4c2100]"></div>
-</div>
-<span class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest font-bold">s3_orchestrator.py</span>
-</div>
-<div class="p-8 font-mono text-xs leading-relaxed overflow-x-auto">
-<pre class="text-secondary"><span class="text-tertiary">import</span> boto3
-<span class="text-tertiary">from</span> botocore.exceptions <span class="text-tertiary">import</span> NoCredentialsError
 
-<span class="text-primary">def</span> <span class="text-on-surface">upload_to_s3</span>(file_name, bucket, object_name=None):
-    <span class="text-on-surface-variant">"""Upload SAP Extract to AWS S3 Bucket"""</span>
-    s3_client = boto3.client(<span class="text-secondary-fixed">'s3'</span>)
-    <span class="text-primary">try</span>:
-        response = s3_client.upload_file(file_name, bucket, object_name or file_name)
-        <span class="text-primary">return</span> True
-    <span class="text-primary">except</span> FileNotFoundError:
-        <span class="text-error">print</span>(<span class="text-secondary-fixed">"The file was not found"</span>)
-        <span class="text-primary">return</span> False
-    <span class="text-primary">except</span> NoCredentialsError:
-        <span class="text-error">print</span>(<span class="text-secondary-fixed">"Credentials not available"</span>)
-        <span class="text-primary">return</span> False</pre>
+<!-- Back -->
+<a class="group inline-flex items-center gap-2 text-tertiary mb-14 hover:-translate-x-1 transition-transform duration-300" href="../projects.html">
+    <span class="material-symbols-outlined text-sm">arrow_back</span>
+    <span class="font-label text-xs tracking-widest uppercase font-bold">Back to Projects</span>
+</a>
+
+<!-- ── Hero ──────────────────────────────────────────── -->
+<header class="mb-16">
+    <span class="font-label text-tertiary text-xs font-black tracking-[0.25em] uppercase mb-5 block">RPA Case Study · Bosch</span>
+    <h1 class="font-headline text-5xl md:text-7xl font-black tracking-tighter leading-none text-on-surface mb-8">
+        SAP Data Extraction<br/><span class="text-secondary">&amp; S3 Orchestration</span>
+    </h1>
+    <!-- Quick stat chips -->
+    <div class="flex flex-wrap gap-4">
+        <div class="flex items-center gap-2 px-4 py-2 bg-tertiary/10 border border-tertiary/20 rounded-full">
+            <span class="font-headline font-black text-tertiary text-lg">90%</span>
+            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Manual effort reduction</span>
+        </div>
+        <div class="flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full">
+            <span class="font-headline font-black text-secondary text-lg">0.2s</span>
+            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Data latency</span>
+        </div>
+        <div class="flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
+            <span class="font-headline font-black text-primary text-lg">100%</span>
+            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Audit compliance</span>
+        </div>
+    </div>
+    <div class="h-[2px] w-24 bg-gradient-to-r from-tertiary to-transparent mt-10"></div>
+</header>
+
+<!-- ── Row 1: Problem + Overview · Tech Stack ──────── -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
+
+    <!-- Problem + Overview -->
+    <section class="md:col-span-8 glass-panel p-8 rounded-xl">
+        <div class="flex items-center gap-3 mb-2">
+            <div class="w-1.5 h-1.5 rounded-full bg-tertiary"></div>
+            <span class="text-[10px] uppercase tracking-[0.3em] text-tertiary font-black">The Problem</span>
+        </div>
+        <p class="font-body text-on-surface-variant leading-relaxed mb-6 text-base">
+            The finance team at Bosch spent <span class="text-on-surface font-semibold">3+ hours daily</span> manually opening SAP, running transactions, exporting Excel reports, renaming files, and uploading them via FTP. The process was undocumented, error-prone, and blocked by SAP access queues shared across multiple users.
+        </p>
+        <div class="flex items-center gap-3 mb-2">
+            <div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+            <span class="text-[10px] uppercase tracking-[0.3em] text-secondary font-black">The Solution</span>
+        </div>
+        <p class="font-body text-on-surface-variant leading-relaxed text-base">
+            A fully automated pipeline that runs daily at 06:00 UTC. The UiPath bot logs into SAP, injects the parameters, extracts the ALV reports, converts them to Parquet, and uploads them to an <span class="text-secondary font-semibold">AWS S3</span> data lake — without any human intervention.
+        </p>
+        <div class="mt-8 pt-6 border-t border-outline-variant/10 flex items-center gap-3">
+            <span class="material-symbols-outlined text-on-surface-variant text-sm">person</span>
+            <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">My Role:</span>
+            <span class="text-[11px] text-on-surface-variant">Sole developer — architecture, UiPath workflow, Python orchestration layer</span>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="md:col-span-4 bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
+        <h2 class="font-headline text-sm font-black text-primary mb-8 uppercase tracking-widest">Technical Stack</h2>
+        <ul class="space-y-5">
+            <li class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-primary flex-shrink-0">
+                    <span class="material-symbols-outlined text-lg">robot_2</span>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-on-surface">UiPath</p>
+                    <p class="text-xs text-on-surface-variant">Core RPA engine</p>
+                </div>
+            </li>
+            <li class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-secondary flex-shrink-0">
+                    <span class="material-symbols-outlined text-lg">database</span>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-on-surface">SAP ERP</p>
+                    <p class="text-xs text-on-surface-variant">System of record (MB52, FBL3N)</p>
+                </div>
+            </li>
+            <li class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-tertiary-container flex items-center justify-center text-tertiary flex-shrink-0">
+                    <span class="material-symbols-outlined text-lg">code</span>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-on-surface">Python</p>
+                    <p class="text-xs text-on-surface-variant">Orchestration & Boto3 SDK</p>
+                </div>
+            </li>
+            <li class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-on-surface flex-shrink-0">
+                    <span class="material-symbols-outlined text-lg">cloud_upload</span>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-on-surface">AWS S3</p>
+                    <p class="text-xs text-on-surface-variant">Cloud data lake</p>
+                </div>
+            </li>
+        </ul>
+    </section>
 </div>
+
+<!-- ── Automation Flow (full width) ────────────────── -->
+<section class="glass-panel rounded-xl p-8 md:p-10 mb-6 relative overflow-hidden">
+    <div class="absolute -top-10 -right-10 w-64 h-64 bg-secondary/5 rounded-full blur-[80px] pointer-events-none"></div>
+
+    <div class="flex items-center gap-3 mb-8">
+        <span class="material-symbols-outlined text-primary text-lg">account_tree</span>
+        <h2 class="font-headline text-xl font-black text-on-surface uppercase tracking-wider">Automation Flow</h2>
+        <div class="ml-2 flex items-center gap-1.5 px-2.5 py-1 bg-primary/10 border border-primary/20 rounded-full">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            <span class="text-[9px] font-black uppercase tracking-widest text-primary">Live Simulation</span>
+        </div>
+    </div>
+
+    <!-- Nodes track -->
+    <div class="fn-wrap">
+        <div class="fn-track">
+
+            <!-- Node 1: Trigger -->
+            <div class="fn-node" id="fn-clock">
+                <div class="fn-icon">
+                    <span class="material-symbols-outlined text-2xl" style="color:#ffb689">schedule</span>
+                </div>
+                <div class="fn-title" style="color:#ffb689">Trigger</div>
+                <div class="fn-sub">Daily<br/>06:00 UTC</div>
+            </div>
+
+            <div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="c1"></div></div>
+
+            <!-- Node 2: Bot -->
+            <div class="fn-node" id="fn-robot">
+                <div class="fn-icon">
+                    <span class="material-symbols-outlined text-2xl" style="color:#a5cbea">smart_toy</span>
+                </div>
+                <div class="fn-title" style="color:#a5cbea">UiPath Bot</div>
+                <div class="fn-sub">Activates<br/>&amp; logs in</div>
+            </div>
+
+            <div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="c2"></div></div>
+
+            <!-- Node 3: SAP -->
+            <div class="fn-node" id="fn-sap">
+                <div class="fn-icon">
+                    <span class="material-symbols-outlined text-2xl" style="color:#8fd1de">table_chart</span>
+                </div>
+                <div class="fn-title" style="color:#8fd1de">SAP ERP</div>
+                <div class="fn-sub">Params<br/>injected</div>
+                <div class="fn-typing" aria-hidden="true"><span></span><span></span><span></span></div>
+            </div>
+
+            <div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="c3"></div></div>
+
+            <!-- Node 4: Export -->
+            <div class="fn-node" id="fn-excel">
+                <div class="fn-icon">
+                    <span class="material-symbols-outlined text-2xl" style="color:#ffb689">download</span>
+                </div>
+                <div class="fn-title" style="color:#ffb689">Report Export</div>
+                <div class="fn-sub">ALV → Parquet<br/>file ready</div>
+            </div>
+
+            <div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="c4"></div></div>
+
+            <!-- Node 5: S3 -->
+            <div class="fn-node" id="fn-s3">
+                <div class="fn-icon">
+                    <span class="material-symbols-outlined text-2xl" style="color:#a5cbea">cloud_upload</span>
+                </div>
+                <div class="fn-title" style="color:#a5cbea">AWS S3</div>
+                <div class="fn-sub">Secure upload<br/>complete ✓</div>
+            </div>
+
+        </div><!-- /fn-track -->
+
+        <!-- Step descriptions -->
+        <div class="fn-desc-row mt-2">
+            <div class="fn-desc">
+                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Scheduler fires the UiPath Orchestrator job via API</p>
+            </div>
+            <div class="fn-desc-gap"></div>
+            <div class="fn-desc">
+                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Bot opens SAP GUI, authenticates with vault credentials</p>
+            </div>
+            <div class="fn-desc-gap"></div>
+            <div class="fn-desc">
+                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Navigates to MB52/FBL3N, injects date &amp; plant params</p>
+            </div>
+            <div class="fn-desc-gap"></div>
+            <div class="fn-desc">
+                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Exports ALV grid, Python converts XLS → Parquet</p>
+            </div>
+            <div class="fn-desc-gap"></div>
+            <div class="fn-desc">
+                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Boto3 uploads to S3 with partitioned prefix, triggers SNS</p>
+            </div>
+        </div>
+    </div><!-- /fn-wrap -->
 </section>
-<!-- Impact / Results -->
-<section class="md:col-span-5 bg-gradient-to-br from-primary-container to-surface-container-low p-10 rounded-xl flex flex-col justify-center">
-<h2 class="font-headline text-2xl font-bold text-primary mb-8">Impact Metrics</h2>
-<div class="space-y-8">
-<div class="flex items-center gap-6">
-<span class="font-headline text-4xl font-black text-tertiary">90%</span>
-<div class="h-px flex-grow bg-outline-variant/20"></div>
-<span class="text-xs uppercase tracking-widest text-on-surface-variant text-right">Manual Effort <br/>Reduction</span>
+
+<!-- ── Row 2: Code · Impact Metrics ────────────────── -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+
+    <!-- Execution Log Terminal -->
+    <section class="md:col-span-7 bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/20 flex flex-col">
+        <!-- Title bar -->
+        <div class="bg-surface-container-highest px-5 py-3 flex items-center justify-between flex-shrink-0">
+            <div class="flex gap-2">
+                <div class="w-3 h-3 rounded-full bg-[#ff5f57]"></div>
+                <div class="w-3 h-3 rounded-full bg-[#febc2e]"></div>
+                <div class="w-3 h-3 rounded-full bg-[#28c840]"></div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                <span class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest font-bold">execution-log · live replay</span>
+            </div>
+            <span class="text-[9px] text-on-surface-variant/40 font-mono">2024-03-15</span>
+        </div>
+
+        <!-- Log output -->
+        <div class="p-6 font-mono text-[11px] leading-[1.85] overflow-y-auto flex-1" style="min-height:320px; max-height:380px">
+            <div id="exec-log" class="space-y-0.5"></div>
+            <span id="log-cursor" class="inline-block w-2 h-3.5 bg-primary/70 align-middle ml-0.5" style="animation: cursorblink .8s step-end infinite"></span>
+        </div>
+
+        <!-- Footer note -->
+        <div class="px-6 py-3 border-t border-outline-variant/10 bg-surface-container/40 flex-shrink-0">
+            <p class="text-[10px] text-on-surface-variant/40 leading-relaxed">
+                Real execution patterns — including the SAP popup edge case and the empty-plant guard that prevented false failures in 3 of 12 plants.
+            </p>
+        </div>
+    </section>
+
+    <!-- Impact Metrics -->
+    <section class="md:col-span-5 flex flex-col gap-4">
+
+        <div class="flex-1 bg-gradient-to-br from-primary-container/60 to-surface-container-low p-8 rounded-xl border border-primary/10">
+            <div class="flex items-end justify-between mb-2">
+                <span class="font-headline font-black text-6xl text-tertiary">90%</span>
+                <span class="material-symbols-outlined text-tertiary/40 text-4xl">trending_down</span>
+            </div>
+            <p class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Manual effort eliminated</p>
+            <p class="text-[11px] text-on-surface-variant/60 mt-2 leading-relaxed">From 3+ hours daily to zero human touchpoints. The team now just checks the S3 folder.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-surface-container-low p-6 rounded-xl border border-secondary/10">
+                <span class="font-headline font-black text-3xl text-secondary">0.2s</span>
+                <p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mt-2">Data latency</p>
+                <p class="text-[10px] text-on-surface-variant/50 mt-1">Near real-time S3 availability</p>
+            </div>
+            <div class="bg-surface-container-low p-6 rounded-xl border border-primary/10">
+                <span class="font-headline font-black text-3xl text-primary">100%</span>
+                <p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mt-2">Audit trail</p>
+                <p class="text-[10px] text-on-surface-variant/50 mt-1">Every run logged with timestamps</p>
+            </div>
+        </div>
+
+    </section>
 </div>
-<div class="flex items-center gap-6">
-<span class="font-headline text-4xl font-black text-secondary">0.2s</span>
-<div class="h-px flex-grow bg-outline-variant/20"></div>
-<span class="text-xs uppercase tracking-widest text-on-surface-variant text-right">Data Latency <br/>(Near Real-time)</span>
-</div>
-<div class="flex items-center gap-6">
-<span class="font-headline text-4xl font-black text-on-surface">100%</span>
-<div class="h-px flex-grow bg-outline-variant/20"></div>
-<span class="text-xs uppercase tracking-widest text-on-surface-variant text-right">Audit Trail <br/>Compliance</span>
-</div>
-</div>
-</section>
-</div>
-<!-- Visual Asset Placeholder -->
-<div class="mt-12 rounded-xl overflow-hidden h-[400px] bg-surface-container relative">
-<img alt="Abstract technology visualization" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" data-alt="Abstract neural network with digital connections and nodes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSxpkjHUtHHQjMvJ8-SsCcZ4KsphohkH2FwQVX78OEBBeTPeRrSuqJmHDRb19pkt80hqkVPjlUXBW55txIvHGCzhpueQ5g45MM3-g1CgY1WUwm24a1XUosBu0GoDuBD7h5ooC4z9jKHap2PKZB0FpwcshTt5M5YC4BPpSDEODz17SQngPX3QtTt87NcLPwgqgHnz4Y1ZES-0KL2J9uSfDWTT69S0_xRO8nJ9lfOPqt4taUhV6McbEoMAZ9R7D03MH1v9TBpL230RBA"/>
-<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
-<div class="absolute bottom-10 left-10">
-<h3 class="font-headline text-3xl font-bold text-on-surface">System Architecture</h3>
-<p class="text-on-surface-variant font-body">Neural Orchestration Logic Layer</p>
-</div>
-</div>
+
+<!-- Execution log script -->
+<script>
+(function () {
+    const LOG = [
+        { t:  400, level: 'INFO',    text: 'Scheduler fired · SAP_DataExtract_v3 queued' },
+        { t:  950, level: 'INFO',    text: 'UiPath bot instance allocated · connecting to SAP GUI...' },
+        { t: 1700, level: 'INFO',    text: 'SAP session established · authenticating via credential vault' },
+        { t: 2500, level: 'ERROR',   text: 'Unexpected popup detected — "Session will expire in 60s"' },
+        { t: 3100, level: 'RECOVER', text: 'Popup handler triggered · dismissed · session extended ✓' },
+        { t: 3800, level: 'INFO',    text: 'Navigating to MB52 · injecting params: plant=1000, date=2024-03-15' },
+        { t: 4500, level: 'WARN',    text: 'Plant 1200 returned 0 rows · no stock movements this period' },
+        { t: 5000, level: 'INFO',    text: 'Empty dataset guard triggered · skipped · audit entry logged' },
+        { t: 5700, level: 'INFO',    text: 'ALV grid exported · 14,832 rows → /tmp/MB52_20240315.xls' },
+        { t: 6300, level: 'INFO',    text: 'Converting XLS → Parquet (snappy) · 14,832 rows processed' },
+        { t: 7000, level: 'INFO',    text: 'Upload started → finance-datalake/sap/MB52/2024-03-15/' },
+        { t: 7500, level: 'INFO',    text: 'Multi-part upload · chunk 1/3 · 5.2 MB' },
+        { t: 7950, level: 'INFO',    text: 'Multi-part upload · chunk 2/3 · 5.2 MB' },
+        { t: 8350, level: 'INFO',    text: 'Multi-part upload · chunk 3/3 · 3.1 MB' },
+        { t: 8900, level: 'INFO',    text: 'SNS notification dispatched → finance-team@bosch.com' },
+        { t: 9500, level: 'SUCCESS', text: 'Pipeline complete · duration: 25.3s · 14,832 rows in S3 ✓' },
+    ];
+
+    const COLORS = {
+        INFO:    '#a5cbea',
+        WARN:    '#ffb689',
+        ERROR:   '#ff6b6b',
+        RECOVER: '#8fd1de',
+        SUCCESS: '#5fdb8f',
+    };
+
+    const BADGES = {
+        INFO:    { bg: 'rgba(165,203,234,.1)',  color: '#a5cbea'  },
+        WARN:    { bg: 'rgba(255,182,137,.12)', color: '#ffb689'  },
+        ERROR:   { bg: 'rgba(255,107,107,.15)', color: '#ff6b6b'  },
+        RECOVER: { bg: 'rgba(143,209,222,.12)', color: '#8fd1de'  },
+        SUCCESS: { bg: 'rgba(95,219,143,.15)',  color: '#5fdb8f'  },
+    };
+
+    const container = document.getElementById('exec-log');
+    const cursor    = document.getElementById('log-cursor');
+    const CYCLE     = 13000;
+
+    function formatTime(offset) {
+        const base = new Date('2024-03-15T06:00:00');
+        base.setMilliseconds(base.getMilliseconds() + offset * 0.4);
+        return base.toTimeString().slice(0, 8);
+    }
+
+    function appendLine(entry, idx) {
+        const b = BADGES[entry.level];
+        const row = document.createElement('div');
+        row.className = 'flex items-baseline gap-2 opacity-0';
+        row.style.transition = 'opacity .25s ease';
+
+        row.innerHTML =
+            `<span style="color:rgba(165,203,234,.3);flex-shrink:0">${formatTime(entry.t)}</span>` +
+            `<span style="background:${b.bg};color:${b.color};padding:1px 6px;border-radius:3px;font-size:9px;font-weight:900;letter-spacing:.08em;flex-shrink:0;min-width:58px;text-align:center">${entry.level}</span>` +
+            `<span style="color:${COLORS[entry.level]};opacity:.85">${entry.text}</span>`;
+
+        container.appendChild(row);
+        // fade in
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            row.style.opacity = '1';
+            // scroll only inside the terminal box, never hijack page scroll
+            container.scrollTop = container.scrollHeight;
+        }));
+    }
+
+    let timers = [];
+
+    function runLog() {
+        // clear
+        timers.forEach(clearTimeout);
+        timers = [];
+        container.innerHTML = '';
+
+        LOG.forEach((entry, i) => {
+            timers.push(setTimeout(() => appendLine(entry, i), entry.t));
+        });
+
+        // restart
+        timers.push(setTimeout(() => {
+            // brief pause then fade out and restart
+            container.style.transition = 'opacity .6s ease';
+            container.style.opacity    = '0';
+            timers.push(setTimeout(() => {
+                container.style.opacity = '1';
+                runLog();
+            }, 800));
+        }, CYCLE));
+    }
+
+    runLog();
+})();
+</script>
+
+<!-- Flow animation script -->
+<script>
+(function () {
+    const CYCLE = 7200;
+
+    function activate(id) {
+        document.getElementById('fn-' + id)?.classList.add('fn-active');
+    }
+    function complete(id) {
+        const el = document.getElementById('fn-' + id);
+        el?.classList.add('fn-active', 'fn-complete');
+    }
+    function blink(id) {
+        const el = document.getElementById('fn-' + id);
+        el?.classList.add('fn-active', 'fn-blinking');
+        setTimeout(() => el?.classList.remove('fn-blinking'), 1000);
+    }
+    function dot(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.remove('dot-run');
+        void el.offsetWidth; // reflow to restart animation
+        el.classList.add('dot-run');
+    }
+    function reset() {
+        document.querySelectorAll('.fn-node').forEach(n => {
+            n.classList.remove('fn-active', 'fn-complete', 'fn-blinking');
+        });
+        document.querySelectorAll('.fn-dot').forEach(d => d.classList.remove('dot-run'));
+    }
+
+    function runCycle() {
+        reset();
+        const s = (fn, t) => setTimeout(fn, t);
+        s(() => activate('clock'),  80);
+        s(() => dot('c1'),          700);
+        s(() => blink('robot'),     1300);
+        s(() => dot('c2'),          1900);
+        s(() => activate('sap'),    2550);
+        s(() => dot('c3'),          3200);
+        s(() => activate('excel'),  3850);
+        s(() => dot('c4'),          4500);
+        s(() => complete('s3'),     5150);
+        setTimeout(runCycle, CYCLE);
+    }
+
+    runCycle();
+})();
+</script>
+
 </main>
 <!-- Footer -->
 <footer class="w-full py-12 border-t border-[#a5cbea]/5 bg-[#001524]">
