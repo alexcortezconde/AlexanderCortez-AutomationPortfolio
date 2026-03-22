@@ -6,7 +6,16 @@
       "Bash(cp projects_portfolio_en/code.html projects.html)",
       "Bash(cp experience_trajectory_en/code.html experience.html)",
       "Bash(cp contact_stack_en/code.html contact.html)",
-      "Bash(cp project_detail_sap_automation/code.html projects/sap-automation.html)"
+      "Bash(cp project_detail_sap_automation/code.html projects/sap-automation.html)",
+      "Bash(sed -n '1,20p' index.html)",
+      "Bash(sed -n '1,20p' projects.html)",
+      "Bash(sed -n '1,20p' experience.html)",
+      "Bash(sed -n '1,20p' contact.html)",
+      "Bash(sed -n '1,20p' projects/sap-automation.html)",
+      "Bash(sed -n '9,85p' index.html)",
+      "Bash(sed -n '9,85p' projects.html)",
+      "Bash(sed -n '108,135p' index.html)",
+      "Bash(sed -n '108,130p' projects.html)"
     ]
   }
 }

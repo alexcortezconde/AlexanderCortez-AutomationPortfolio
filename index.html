@@ -3,6 +3,10 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alexander Cortez | RPA &amp; AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://cdn.tailwindcss.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -90,7 +94,7 @@
 <nav class="fixed top-0 w-full z-50 bg-[#001524]/80 backdrop-blur-xl border-b border-[#a5cbea]/10 shadow-2xl shadow-[#001524]/50">
 <div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
 <a class="font-space-grotesk text-xl font-black tracking-tighter text-[#a5cbea] hover:opacity-80 transition-opacity" href="index.html">
-                KINETIC_ENG
+                Alexander Cortez
             </a>
 <div class="hidden md:flex items-center gap-8">
 <a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="projects.html">Projects</a>
@@ -123,21 +127,55 @@
 <span class="font-label text-[10px] uppercase tracking-[0.2em] text-tertiary font-semibold">Available for innovation</span>
 </div>
 <h1 class="font-headline text-5xl md:text-8xl font-black text-on-surface tracking-tight mb-8 leading-[1.1]">
-                    Automating the <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary">Future</span>, One Step at a Time
+                    Automating the <span id="typeword" class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary"></span><span id="typecursor" class="text-primary opacity-100">|</span>, One Step at a Time
                 </h1>
 <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto mb-12 leading-relaxed">
-                    RPA &amp; AI Engineer passionate about code, design, and innovation. Transforming complex processes into intelligent, autonomous workflows.
+                    RPA, Power Apps &amp; AI Engineer passionate about code, design, and innovation. Transforming complex processes into intelligent, autonomous workflows.
                 </p>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-<button class="group relative px-8 py-4 bg-primary text-on-primary font-space-grotesk font-bold rounded-md overflow-hidden transition-all duration-300 active:scale-95">
+<a href="projects.html" class="group relative px-8 py-4 bg-primary text-on-primary font-space-grotesk font-bold rounded-md overflow-hidden transition-all duration-300 active:scale-95 inline-block">
 <span class="relative z-10">View Projects</span>
 <div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity"></div>
-</button>
-<button class="flex items-center gap-3 font-space-grotesk font-bold text-primary group">
+</a>
+<a href="experience.html" class="flex items-center gap-3 font-space-grotesk font-bold text-primary group">
 <span>My Journey</span>
 <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-</button>
+</a>
 </div>
+<script>
+(function () {
+  const words = ["Future", "Past", "Present", "Future"];
+  const el = document.getElementById("typeword");
+  const cursor = document.getElementById("typecursor");
+  let wi = 0, ci = 0, deleting = false;
+
+  // cursor blink
+  setInterval(() => cursor.style.opacity = cursor.style.opacity === "0" ? "1" : "0", 530);
+
+  function tick() {
+    const word = words[wi];
+    if (!deleting) {
+      el.textContent = word.slice(0, ++ci);
+      if (ci === word.length) {
+        deleting = true;
+        setTimeout(tick, wi === words.length - 1 ? 99999 : 1400); // pause on last word forever
+        return;
+      }
+      setTimeout(tick, 95 + Math.random() * 55);
+    } else {
+      el.textContent = word.slice(0, --ci);
+      if (ci === 0) {
+        deleting = false;
+        wi = (wi + 1) % words.length;
+        setTimeout(tick, 300);
+        return;
+      }
+      setTimeout(tick, 55 + Math.random() * 30);
+    }
+  }
+  setTimeout(tick, 600);
+})();
+</script>
 </div>
 <!-- Scroll Indicator -->
 <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
@@ -254,7 +292,7 @@
 <footer class="w-full py-12 border-t border-[#a5cbea]/5 bg-[#001524]">
 <div class="flex flex-col md:flex-row justify-between items-center px-8 gap-6 max-w-7xl mx-auto">
 <div class="font-space-grotesk font-bold text-[#ffb689]">
-                KINETIC ENGINEER
+                Alexander Cortez
             </div>
 <div class="flex gap-8">
 <a class="font-inter text-xs tracking-widest uppercase text-[#a5cbea]/50 hover:text-[#8fd1de] transition-all duration-300 hover:-translate-y-1" href="#">LinkedIn</a>
@@ -263,7 +301,7 @@
 <a class="font-inter text-xs tracking-widest uppercase text-[#a5cbea]/50 hover:text-[#8fd1de] transition-all duration-300 hover:-translate-y-1" href="#">Email</a>
 </div>
 <div class="font-inter text-xs tracking-widest uppercase text-[#a5cbea]/50">
-                © 2025 THE KINETIC ENGINEER | NEURAL ARCHITECT
+                © 2025 Alexander Cortez | RPA &amp; AI Engineer
             </div>
 </div>
 </footer>
