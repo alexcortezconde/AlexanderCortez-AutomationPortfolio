@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact &amp; Tech Stack | KINETIC_ENG</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#244a64",
+              "on-surface": "#d0e5fa",
+              "surface-dim": "#001524",
+              "surface-container-low": "#071d2d",
+              "outline-variant": "#42474d",
+              "primary": "#a5cbea",
+              "inverse-primary": "#3d627d",
+              "surface-tint": "#a5cbea",
+              "secondary-fixed-dim": "#8fd1de",
+              "outline": "#8c9197",
+              "on-tertiary-fixed-variant": "#733500",
+              "on-primary-fixed": "#001e2f",
+              "secondary": "#8fd1de",
+              "inverse-on-surface": "#1e3242",
+              "tertiary-fixed-dim": "#ffb689",
+              "surface": "#001524",
+              "on-primary-container": "#7398b6",
+              "error-container": "#93000a",
+              "surface-container-high": "#172c3c",
+              "on-error-container": "#ffdad6",
+              "surface-container": "#0c2131",
+              "inverse-surface": "#d0e5fa",
+              "primary-container": "#003049",
+              "on-tertiary-container": "#eb7300",
+              "surface-container-highest": "#233747",
+              "tertiary-fixed": "#ffdbc8",
+              "error": "#ffb4ab",
+              "on-error": "#690005",
+              "surface-variant": "#233747",
+              "on-surface-variant": "#c2c7cd",
+              "tertiary": "#ffb689",
+              "on-secondary-fixed": "#001f25",
+              "background": "#001524",
+              "on-secondary": "#00363e",
+              "on-tertiary-fixed": "#311300",
+              "on-secondary-container": "#88c9d7",
+              "on-primary": "#05344d",
+              "on-secondary-fixed-variant": "#004e59",
+              "surface-bright": "#273b4c",
+              "on-background": "#d0e5fa",
+              "primary-fixed": "#cae6ff",
+              "secondary-fixed": "#abedfb",
+              "on-tertiary": "#512300",
+              "primary-fixed-dim": "#a5cbea",
+              "surface-container-lowest": "#00101c",
+              "secondary-container": "#005662",
+              "tertiary-container": "#4c2100"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(35, 55, 71, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(165, 203, 234, 0.1);
+        }
+        .stormy-gradient {
+            background: linear-gradient(135deg, #001524 0%, #003049 100%);
+        }
+        .glow-python {
+            box-shadow: 0 0 20px rgba(255, 182, 137, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-tertiary selection:text-on-tertiary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#001524]/80 backdrop-blur-xl border-b border-[#a5cbea]/10 shadow-2xl shadow-[#001524]/50">
+<div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+<a class="font-space-grotesk text-xl font-black tracking-tighter text-[#a5cbea] hover:opacity-80 transition-opacity" href="index.html">KINETIC_ENG</a>
+<div class="hidden md:flex items-center gap-8 font-space-grotesk font-bold tracking-tight text-sm uppercase">
+<a class="text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="projects.html">Projects</a>
+<a class="text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="experience.html">Experience</a>
+<a class="text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="#">About</a>
+<a class="text-[#ffb689] border-b-2 border-[#ffb689] pb-1" href="contact.html">Contact</a>
+</div>
+<button class="bg-primary-container text-primary px-5 py-2 rounded-md font-space-grotesk font-bold text-xs uppercase tracking-widest hover:bg-[#071d2d] transition-all duration-300 active:scale-95">
+                Resume
+            </button>
+</div>
+</nav>
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto overflow-hidden">
+<!-- Header Section -->
+<header class="mb-24 relative">
+<div class="absolute -top-20 -left-20 w-64 h-64 bg-secondary/10 blur-[100px] rounded-full"></div>
+<div class="relative z-10">
+<p class="font-label text-tertiary uppercase tracking-[0.3em] text-[10px] mb-4">Neural Architecture &amp; Automation</p>
+<h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tight leading-none mb-6">
+                    ENGINEERING <br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary">THE FUTURE FLOW</span>
+</h1>
+</div>
+</header>
+<!-- Tech Stack / Tool Section (Bento Style) -->
+<section class="mb-32">
+<div class="flex items-center gap-4 mb-12">
+<h2 class="font-headline text-2xl font-bold">TECH_STACK.EXE</h2>
+<div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+<!-- Python (Highlighted) -->
+<div class="surface-container p-8 flex flex-col items-center justify-center gap-4 border-2 border-tertiary/30 bg-surface-container-high glow-python transform scale-105 z-10 transition-all group cursor-default">
+<div class="w-14 h-14 flex items-center justify-center bg-tertiary/10 rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary text-4xl">code</span>
+</div>
+<span class="font-headline font-bold text-sm tracking-widest text-tertiary">PYTHON</span>
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-tertiary text-on-tertiary text-[8px] px-2 py-0.5 font-bold uppercase tracking-tighter">Core Competency</div>
+</div>
+<!-- UiPath -->
+<div class="surface-container-low p-8 flex flex-col items-center justify-center gap-4 hover:bg-surface-container-high transition-colors group cursor-default">
+<div class="w-12 h-12 flex items-center justify-center bg-surface-container-highest rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">smart_toy</span>
+</div>
+<span class="font-headline font-bold text-xs tracking-widest text-on-surface-variant group-hover:text-primary">UIPATH</span>
+</div>
+<!-- AA -->
+<div class="surface-container-low p-8 flex flex-col items-center justify-center gap-4 hover:bg-surface-container-high transition-colors group cursor-default">
+<div class="w-12 h-12 flex items-center justify-center bg-surface-container-highest rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-3xl">settings_suggest</span>
+</div>
+<span class="font-headline font-bold text-xs tracking-widest text-on-surface-variant group-hover:text-secondary uppercase">AA</span>
+</div>
+<!-- Power Automate -->
+<div class="surface-container-low p-8 flex flex-col items-center justify-center gap-4 hover:bg-surface-container-high transition-colors group cursor-default">
+<div class="w-12 h-12 flex items-center justify-center bg-surface-container-highest rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl">account_tree</span>
+</div>
+<span class="font-headline font-bold text-xs tracking-widest text-on-surface-variant group-hover:text-primary">POWER AUTOMATE</span>
+</div>
+<!-- OpenAI -->
+<div class="surface-container-low p-8 flex flex-col items-center justify-center gap-4 hover:bg-surface-container-high transition-colors group cursor-default">
+<div class="w-12 h-12 flex items-center justify-center bg-surface-container-highest rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary text-3xl">psychology</span>
+</div>
+<span class="font-headline font-bold text-xs tracking-widest text-on-surface-variant group-hover:text-secondary">OPENAI</span>
+</div>
+<!-- AWS -->
+<div class="surface-container-low p-8 flex flex-col items-center justify-center gap-4 hover:bg-surface-container-high transition-colors group cursor-default">
+<div class="w-12 h-12 flex items-center justify-center bg-surface-container-highest rounded-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary text-3xl">cloud</span>
+</div>
+<span class="font-headline font-bold text-xs tracking-widest text-on-surface-variant group-hover:text-tertiary uppercase">AWS</span>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="grid lg:grid-cols-12 gap-12 items-start relative">
+<!-- Contact Context -->
+<div class="lg:col-span-5 flex flex-col gap-8">
+<div>
+<h2 class="font-headline text-4xl font-bold mb-6">INITIATE_CONTACT</h2>
+<p class="text-on-surface-variant leading-relaxed max-w-md">
+                        Ready to automate the redundant and scale the essential? Drop a message to start architecting your neural workflow.
+                    </p>
+</div>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-outline-variant/20">
+<span class="material-symbols-outlined text-tertiary text-xl">alternate_email</span>
+</div>
+<span class="font-label text-sm tracking-wide">hello@kinetic-engineer.ai</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-outline-variant/20">
+<span class="material-symbols-outlined text-primary text-xl">location_on</span>
+</div>
+<span class="font-label text-sm tracking-wide">Remote // Global Operative</span>
+</div>
+</div>
+<!-- Logic Terminal Placeholder -->
+<div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/10 shadow-2xl">
+<div class="flex gap-2 mb-4">
+<div class="w-3 h-3 rounded-full bg-[#ffb689]"></div>
+<div class="w-3 h-3 rounded-full bg-[#8fd1de]"></div>
+<div class="w-3 h-3 rounded-full bg-[#a5cbea]"></div>
+</div>
+<div class="font-mono text-[11px] text-primary/60 leading-relaxed">
+<p><span class="text-tertiary">const</span> bot = <span class="text-secondary">new</span> KineticArchitect();</p>
+<p>bot.status = <span class="text-secondary">'AWAITING_INPUT'</span>;</p>
+<p>bot.listen((msg) =&gt; {</p>
+<p class="pl-4">process.automation(msg);</p>
+<p>});</p>
+</div>
+</div>
+</div>
+<!-- Contact Form -->
+<div class="lg:col-span-7">
+<div class="bg-[#15616d] p-8 md:p-12 rounded-2xl shadow-2xl relative overflow-hidden group">
+<!-- Background Accent -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-[#ffecd1]/5 blur-[80px] -mr-32 -mt-32"></div>
+<form class="relative z-10 flex flex-col gap-8">
+<div class="grid md:grid-cols-2 gap-8">
+<div class="flex flex-col gap-2">
+<label class="font-label text-[#ffecd1] text-[10px] uppercase tracking-widest font-bold">Name</label>
+<input class="bg-[#00101c]/40 border-0 border-b border-[#ffecd1]/20 focus:ring-0 focus:border-secondary transition-all text-[#ffecd1] placeholder:text-[#ffecd1]/30 py-3 px-0 font-body text-sm" placeholder="John Doe" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label text-[#ffecd1] text-[10px] uppercase tracking-widest font-bold">Email</label>
+<input class="bg-[#00101c]/40 border-0 border-b border-[#ffecd1]/20 focus:ring-0 focus:border-secondary transition-all text-[#ffecd1] placeholder:text-[#ffecd1]/30 py-3 px-0 font-body text-sm" placeholder="john@company.com" type="email"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label text-[#ffecd1] text-[10px] uppercase tracking-widest font-bold">Message</label>
+<textarea class="bg-[#00101c]/40 border-0 border-b border-[#ffecd1]/20 focus:ring-0 focus:border-secondary transition-all text-[#ffecd1] placeholder:text-[#ffecd1]/30 py-3 px-0 font-body text-sm resize-none" placeholder="How can we optimize your process?" rows="4"></textarea>
+</div>
+<button class="group/btn relative w-full md:w-max bg-gradient-to-r from-primary to-secondary py-4 px-10 rounded-md overflow-hidden transition-all active:scale-95 flex items-center justify-center gap-3" type="submit">
+<span class="font-headline font-bold text-on-primary text-xs uppercase tracking-[0.2em] relative z-10">Send Automation</span>
+<span class="material-symbols-outlined text-on-primary text-sm animate-spin relative z-10">sync</span>
+<!-- Shimmer effect -->
+<div class="absolute inset-0 w-full h-full bg-white/20 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-in-out"></div>
+</button>
+</form>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 border-t border-[#a5cbea]/5 bg-[#001524]">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 gap-6 max-w-7xl mx-auto">
+<div class="flex flex-col gap-2 items-center md:items-start">
+<div class="font-space-grotesk font-bold text-[#ffb689]">KINETIC ENGINEER</div>
+<div class="font-inter text-xs tracking-widest uppercase text-[#a5cbea]/50">© 2025 THE KINETIC ENGINEER | NEURAL ARCHITECT</div>
+</div>
+<div class="flex gap-8">
+<a class="text-[#a5cbea]/50 hover:text-[#8fd1de] transition-colors duration-300 font-inter text-xs tracking-widest uppercase hover:-translate-y-1 transition-transform" href="#">LinkedIn</a>
+<a class="text-[#a5cbea]/50 hover:text-[#8fd1de] transition-colors duration-300 font-inter text-xs tracking-widest uppercase hover:-translate-y-1 transition-transform" href="#">GitHub</a>
+<a class="text-[#a5cbea]/50 hover:text-[#8fd1de] transition-colors duration-300 font-inter text-xs tracking-widest uppercase hover:-translate-y-1 transition-transform" href="#">Twitter</a>
+<a class="text-[#a5cbea]/50 hover:text-[#8fd1de] transition-colors duration-300 font-inter text-xs tracking-widest uppercase hover:-translate-y-1 transition-transform" href="#">Email</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#244a64",
+              "on-surface": "#d0e5fa",
+              "surface-dim": "#001524",
+              "surface-container-low": "#071d2d",
+              "outline-variant": "#42474d",
+              "primary": "#a5cbea",
+              "inverse-primary": "#3d627d",
+              "surface-tint": "#a5cbea",
+              "secondary-fixed-dim": "#8fd1de",
+              "outline": "#8c9197",
+              "on-tertiary-fixed-variant": "#733500",
+              "on-primary-fixed": "#001e2f",
+              "secondary": "#8fd1de",
+              "inverse-on-surface": "#1e3242",
+              "tertiary-fixed-dim": "#ffb689",
+              "surface": "#001524",
+              "on-primary-container": "#7398b6",
+              "error-container": "#93000a",
+              "surface-container-high": "#172c3c",
+              "on-error-container": "#ffdad6",
+              "surface-container": "#0c2131",
+              "inverse-surface": "#d0e5fa",
+              "primary-container": "#003049",
+              "on-tertiary-container": "#eb7300",
+              "surface-container-highest": "#233747",
+              "tertiary-fixed": "#ffdbc8",
+              "error": "#ffb4ab",
+              "on-error": "#690005",
+              "surface-variant": "#233747",
+              "on-surface-variant": "#c2c7cd",
+              "tertiary": "#ffb689",
+              "on-secondary-fixed": "#001f25",
+              "background": "#001524",
+              "on-secondary": "#00363e",
+              "on-tertiary-fixed": "#311300",
+              "on-secondary-container": "#88c9d7",
+              "on-primary": "#05344d",
+              "on-secondary-fixed-variant": "#004e59",
+              "surface-bright": "#273b4c",
+              "on-background": "#d0e5fa",
+              "primary-fixed": "#cae6ff",
+              "secondary-fixed": "#abedfb",
+              "on-tertiary": "#512300",
+              "primary-fixed-dim": "#a5cbea",
+              "surface-container-lowest": "#00101c",
+              "secondary-container": "#005662",
+              "tertiary-container": "#4c2100"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .neural-grid {
+            background-image: radial-gradient(circle at 2px 2px, rgba(165, 203, 234, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .glass-panel {
+            backdrop-filter: blur(16px);
+            background: rgba(7, 29, 45, 0.6);
+            border: 1px solid rgba(165, 203, 234, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-tertiary selection:text-on-tertiary overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#001524]/80 backdrop-blur-xl border-b border-[#a5cbea]/10 shadow-2xl shadow-[#001524]/50">
+<div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+<a class="font-space-grotesk text-xl font-black tracking-tighter text-[#a5cbea] hover:opacity-80 transition-opacity" href="index.html">
+                KINETIC_ENG
+            </a>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="projects.html">Projects</a>
+<a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="experience.html">Experience</a>
+<a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="#">About</a>
+<a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="contact.html">Contact</a>
+</div>
+<button class="bg-primary-container text-primary px-5 py-2 rounded-md font-space-grotesk font-bold text-xs uppercase tracking-widest hover:bg-surface-container-high transition-all duration-300 active:scale-95">
+                Resume
+            </button>
+</div>
+</nav>
+<main class="relative min-h-screen pt-20">
+<!-- Hero Section with Abstract Visualization -->
+<section class="relative min-h-[921px] flex items-center justify-center overflow-hidden px-6">
+<!-- Background Neural Effect -->
+<div class="absolute inset-0 z-0 neural-grid"></div>
+<div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary-container rounded-full blur-[120px] opacity-30"></div>
+<div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-secondary-container rounded-full blur-[120px] opacity-20"></div>
+<!-- Floating Data Streams Visual (Abstract) -->
+<div class="absolute inset-0 pointer-events-none opacity-40">
+<div class="absolute top-1/2 left-1/4 w-[1px] h-64 bg-gradient-to-b from-transparent via-primary to-transparent"></div>
+<div class="absolute top-1/3 left-1/3 w-32 h-[1px] bg-gradient-to-r from-transparent via-secondary to-transparent"></div>
+<div class="absolute bottom-1/4 right-1/4 w-[1px] h-48 bg-gradient-to-b from-transparent via-tertiary to-transparent"></div>
+<div class="absolute top-2/3 right-1/3 w-40 h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-5xl mx-auto text-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 mb-8 rounded-full border border-primary/20 bg-primary/5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label text-[10px] uppercase tracking-[0.2em] text-tertiary font-semibold">Available for innovation</span>
+</div>
+<h1 class="font-headline text-5xl md:text-8xl font-black text-on-surface tracking-tight mb-8 leading-[1.1]">
+                    Automating the <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-tertiary">Future</span>, One Step at a Time
+                </h1>
+<p class="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto mb-12 leading-relaxed">
+                    RPA &amp; AI Engineer passionate about code, design, and innovation. Transforming complex processes into intelligent, autonomous workflows.
+                </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+<button class="group relative px-8 py-4 bg-primary text-on-primary font-space-grotesk font-bold rounded-md overflow-hidden transition-all duration-300 active:scale-95">
+<span class="relative z-10">View Projects</span>
+<div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</button>
+<button class="flex items-center gap-3 font-space-grotesk font-bold text-primary group">
+<span>My Journey</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Scroll Indicator -->
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+<span class="font-label text-[9px] uppercase tracking-widest">Explore Intelligence</span>
+<div class="w-[1px] h-12 bg-gradient-to-b from-primary to-transparent"></div>
+</div>
+</section>
+<!-- Bento Grid Feature Section -->
+<section class="max-w-7xl mx-auto px-6 py-32">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Large Card -->
+<div class="md:col-span-8 group glass-panel rounded-xl p-8 flex flex-col justify-between overflow-hidden relative min-h-[400px]">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-tertiary text-4xl mb-6" data-icon="hub">hub</span>
+<h3 class="font-headline text-3xl font-bold mb-4">RPA Ecosystem Orchestration</h3>
+<p class="font-body text-on-surface-variant max-w-md">Designing scalable architectures that integrate industry-leading tools (UiPath, Power Automate) with next-generation Large Language Models.</p>
+</div>
+<div class="mt-8 flex gap-4">
+<span class="px-3 py-1 rounded bg-surface-container-highest text-[10px] font-mono text-primary uppercase">Scalable</span>
+<span class="px-3 py-1 rounded bg-surface-container-highest text-[10px] font-mono text-primary uppercase">Autonomous</span>
+</div>
+<div class="absolute -right-10 -bottom-10 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[200px]" data-icon="precision_manufacturing">precision_manufacturing</span>
+</div>
+</div>
+<!-- Vertical Card -->
+<div class="md:col-span-4 bg-surface-container-low border border-outline-variant/10 rounded-xl p-8 flex flex-col items-center text-center justify-center gap-6">
+<div class="w-16 h-16 rounded-full bg-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="psychology" data-weight="fill">psychology</span>
+</div>
+<h3 class="font-headline text-2xl font-bold">Cognitive AI</h3>
+<p class="font-body text-sm text-on-surface-variant">Unstructured data extraction and decision-making powered by generative AI and neural processing.</p>
+</div>
+<!-- Three Small Cards -->
+<div class="md:col-span-4 glass-panel rounded-xl p-6 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-secondary mb-4" data-icon="monitoring">monitoring</span>
+<h4 class="font-headline font-bold text-lg mb-2">Process Mining</h4>
+<p class="text-xs text-on-surface-variant">Identifying bottlenecks through event log analysis and data-driven discovery.</p>
+</div>
+<div class="md:col-span-4 glass-panel rounded-xl p-6 hover:bg-surface-container-high transition-colors border-t-2 border-t-tertiary/20">
+<span class="material-symbols-outlined text-tertiary mb-4" data-icon="code_blocks">code_blocks</span>
+<h4 class="font-headline font-bold text-lg mb-2">Custom Scripting</h4>
+<p class="text-xs text-on-surface-variant">Bespoke Python and C# solutions for complex enterprise system integrations.</p>
+</div>
+<div class="md:col-span-4 glass-panel rounded-xl p-6 hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary mb-4" data-icon="terminal">terminal</span>
+<h4 class="font-headline font-bold text-lg mb-2">UI Engineering</h4>
+<p class="text-xs text-on-surface-variant">Intuitive dashboards for real-time bot monitoring and operational control.</p>
+</div>
+</div>
+</section>
+<!-- Logic Terminal Showcase -->
+<section class="py-32 bg-surface-container-lowest">
+<div class="max-w-5xl mx-auto px-6">
+<div class="mb-16 text-center">
+<h2 class="font-headline text-4xl font-bold mb-4 italic">The Logic Layer</h2>
+<div class="h-1 w-24 bg-primary mx-auto"></div>
+</div>
+<div class="rounded-xl overflow-hidden shadow-2xl shadow-black/40 border border-outline-variant/20">
+<!-- Terminal Header -->
+<div class="bg-surface-container-highest px-4 py-3 flex items-center justify-between">
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-[#ffecd1]"></div>
+<div class="w-3 h-3 rounded-full bg-[#ffb689]"></div>
+<div class="w-3 h-3 rounded-full bg-[#4c2100]"></div>
+</div>
+<div class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">kinetic_rpa_core.py — kinetic_port</div>
+<div class="w-12"></div>
+</div>
+<!-- Code Content -->
+<div class="bg-[#00101c] p-8 font-mono text-sm leading-relaxed overflow-x-auto">
+<div class="flex gap-4">
+<span class="text-on-surface-variant/30 select-none">01</span>
+<span class="text-secondary">from</span>
+<span class="text-on-surface">kinetic_rpa</span>
+<span class="text-secondary">import</span>
+<span class="text-on-surface">Orchestrator, AI_Agent</span>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant/30 select-none">02</span>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant/30 select-none">03</span>
+<span class="text-tertiary">@Orchestrator.task</span><span class="text-on-surface">(retry=</span><span class="text-primary">3</span><span class="text-on-surface">, timeout=</span><span class="text-primary">300</span><span class="text-on-surface">)</span>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant/30 select-none">04</span>
+<span class="text-secondary">async def</span>
+<span class="text-primary">process_invoice_neural</span><span class="text-on-surface">(data):</span>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant/30 select-none">05</span>
+<span class="pl-4 text-on-surface-variant italic"># Neural extraction for unstructured document data</span>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant/30 select-none">06</span>
+<span class="pl-4 text-on-surface">agent = AI_Agent(model=</span><span class="text-primary">"gpt-4-turbo"</span><span class="text-on-surface">)</span>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant/30 select-none">07</span>
+<span class="pl-4 text-on-surface">result = </span><span class="text-secondary">await</span><span class="text-on-surface"> agent.parse_and_validate(data)</span>
+</div>
+<div class="flex gap-4">
+<span class="text-on-surface-variant/30 select-none">08</span>
+<span class="pl-4 text-secondary">return</span>
+<span class="text-on-surface">Orchestrator.dispatch(</span><span class="text-tertiary">SAP_CONNECTOR</span><span class="text-on-surface">, result)</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 border-t border-[#a5cbea]/5 bg-[#001524]">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 gap-6 max-w-7xl mx-auto">
+<div class="font-space-grotesk font-bold text-[#ffb689]">
+                KINETIC ENGINEER
+            </div>
+<div class="flex gap-8">
+<a class="font-inter text-xs tracking-widest uppercase text-[#a5cbea]/50 hover:text-[#8fd1de] transition-all duration-300 hover:-translate-y-1" href="#">LinkedIn</a>
+<a class="font-inter text-xs tracking-widest uppercase text-[#a5cbea]/50 hover:text-[#8fd1de] transition-all duration-300 hover:-translate-y-1" href="#">GitHub</a>
+<a class="font-inter text-xs tracking-widest uppercase text-[#a5cbea]/50 hover:text-[#8fd1de] transition-all duration-300 hover:-translate-y-1" href="#">Twitter</a>
+<a class="font-inter text-xs tracking-widest uppercase text-[#a5cbea]/50 hover:text-[#8fd1de] transition-all duration-300 hover:-translate-y-1" href="#">Email</a>
+</div>
+<div class="font-inter text-xs tracking-widest uppercase text-[#a5cbea]/50">
+                © 2025 THE KINETIC ENGINEER | NEURAL ARCHITECT
+            </div>
+</div>
+</footer>
+</body></html>

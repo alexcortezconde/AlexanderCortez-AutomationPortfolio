@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SAP Data Extraction &amp; S3 Orchestration | KINETIC_ENG</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed": "#abedfb",
+                        "primary": "#a5cbea",
+                        "on-secondary-fixed": "#001f25",
+                        "surface-variant": "#233747",
+                        "inverse-on-surface": "#1e3242",
+                        "on-background": "#d0e5fa",
+                        "surface-tint": "#a5cbea",
+                        "secondary-fixed-dim": "#8fd1de",
+                        "secondary": "#8fd1de",
+                        "inverse-surface": "#d0e5fa",
+                        "surface-bright": "#273b4c",
+                        "outline": "#8c9197",
+                        "on-primary-container": "#7398b6",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#c2c7cd",
+                        "on-surface": "#d0e5fa",
+                        "on-primary-fixed": "#001e2f",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#003049",
+                        "on-primary-fixed-variant": "#244a64",
+                        "surface-container-highest": "#233747",
+                        "outline-variant": "#42474d",
+                        "tertiary-fixed": "#ffdbc8",
+                        "on-tertiary-container": "#eb7300",
+                        "surface-dim": "#001524",
+                        "on-secondary-container": "#88c9d7",
+                        "background": "#001524",
+                        "primary-fixed": "#cae6ff",
+                        "surface-container-low": "#071d2d",
+                        "on-tertiary-fixed": "#311300",
+                        "surface-container-lowest": "#00101c",
+                        "tertiary-fixed-dim": "#ffb689",
+                        "secondary-container": "#005662",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#004e59",
+                        "surface-container": "#0c2131",
+                        "on-tertiary-fixed-variant": "#733500",
+                        "on-tertiary": "#512300",
+                        "tertiary-container": "#4c2100",
+                        "tertiary": "#ffb689",
+                        "surface-container-high": "#172c3c",
+                        "surface": "#001524",
+                        "primary-fixed-dim": "#a5cbea",
+                        "on-primary": "#05344d",
+                        "on-secondary": "#00363e",
+                        "inverse-primary": "#3d627d"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #001524;
+            color: #d0e5fa;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(35, 55, 71, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(66, 71, 77, 0.15);
+        }
+    </style>
+</head>
+<body class="selection:bg-tertiary/30">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#001524]/80 backdrop-blur-xl border-b border-[#a5cbea]/10 shadow-2xl shadow-[#001524]/50">
+<div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+<a class="font-space-grotesk text-xl font-black tracking-tighter text-[#a5cbea] hover:opacity-80 transition-opacity" href="../index.html">KINETIC_ENG</a>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#ffb689] border-b-2 border-[#ffb689] pb-1" href="../projects.html">Projects</a>
+<a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../experience.html">Experience</a>
+<a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="#">About</a>
+<a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../contact.html">Contact</a>
+<button class="ml-4 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-xs uppercase rounded-md hover:scale-95 transition-transform">Resume</button>
+</div>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+<!-- Back Navigation -->
+<a class="group flex items-center gap-2 text-tertiary mb-12 hover:translate-x-[-4px] transition-transform duration-300" href="../projects.html">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span class="font-label text-xs tracking-widest uppercase font-bold">Back to Projects</span>
+</a>
+<!-- Project Hero Section -->
+<header class="mb-20">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div class="max-w-3xl">
+<span class="font-label text-tertiary text-sm font-bold tracking-[0.2em] uppercase mb-4 block">RPA Case Study</span>
+<h1 class="font-headline text-5xl md:text-7xl font-black tracking-tighter leading-none text-on-surface mb-6">
+                        SAP Data Extraction <br/> &amp; <span class="text-secondary">&amp; S3 Orchestration</span>
+</h1>
+</div>
+<div class="flex gap-4 mb-2">
+<div class="flex flex-col items-end">
+<span class="text-primary text-3xl font-headline font-bold">90%</span>
+<span class="text-on-surface-variant text-[10px] uppercase tracking-widest">Manual Effort Reduction</span>
+</div>
+</div>
+</div>
+<div class="h-1 w-32 bg-gradient-to-r from-tertiary to-transparent mt-8"></div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Project Overview -->
+<section class="md:col-span-8 glass-panel p-8 rounded-xl">
+<h2 class="font-headline text-2xl font-bold text-primary mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined">terminal</span> Project Overview
+                </h2>
+<p class="font-body text-on-surface-variant leading-relaxed text-lg mb-6">
+                    Legacy financial reporting at the enterprise level often suffers from manual data retrieval bottlenecks. This project aimed to automate the end-to-end extraction of mission-critical data from <span class="text-secondary font-semibold">SAP ERP</span> and orchestrate its delivery into a cloud-native <span class="text-secondary font-semibold">AWS S3</span> data lake.
+                </p>
+<p class="font-body text-on-surface-variant leading-relaxed">
+                    By eliminating manual spreadsheet exports and FTP transfers, we established a high-integrity pipeline that feeds downstream AI models with real-time operational metrics.
+                </p>
+</section>
+<!-- Technical Stack -->
+<section class="md:col-span-4 bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
+<h2 class="font-headline text-xl font-bold text-primary mb-8">Technical Stack</h2>
+<ul class="space-y-6">
+<li class="flex items-center gap-4">
+<div class="w-10 h-10 rounded bg-primary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">robot_2</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">UiPath</p>
+<p class="text-xs text-on-surface-variant">Core RPA Engine</p>
+</div>
+</li>
+<li class="flex items-center gap-4">
+<div class="w-10 h-10 rounded bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">database</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">SAP ERP</p>
+<p class="text-xs text-on-surface-variant">System of Record</p>
+</div>
+</li>
+<li class="flex items-center gap-4">
+<div class="w-10 h-10 rounded bg-tertiary-container flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">code</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Python</p>
+<p class="text-xs text-on-surface-variant">AWS SDK Integration</p>
+</div>
+</li>
+<li class="flex items-center gap-4">
+<div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined">cloud</span>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">AWS S3</p>
+<p class="text-xs text-on-surface-variant">Cloud Orchestration</p>
+</div>
+</li>
+</ul>
+</section>
+<!-- Automation Flow -->
+<section class="md:col-span-12 glass-panel p-10 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/5 blur-[100px]"></div>
+<h2 class="font-headline text-2xl font-bold text-primary mb-12">Automation Flow</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+<!-- Step 1 -->
+<div class="flex flex-col gap-4">
+<div class="text-tertiary font-headline font-black text-4xl opacity-30">01</div>
+<h3 class="text-on-surface font-bold uppercase tracking-tight text-sm">Connect to SAP</h3>
+<p class="text-on-surface-variant text-sm">Secure handshake via UiPath SAP Activities with encrypted credential vaulting.</p>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col gap-4">
+<div class="text-tertiary font-headline font-black text-4xl opacity-30">02</div>
+<h3 class="text-on-surface font-bold uppercase tracking-tight text-sm">Input Parameters</h3>
+<p class="text-on-surface-variant text-sm">Dynamic query injection based on periodic schedules or manual trigger payloads.</p>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col gap-4">
+<div class="text-tertiary font-headline font-black text-4xl opacity-30">03</div>
+<h3 class="text-on-surface font-bold uppercase tracking-tight text-sm">Extract Report</h3>
+<p class="text-on-surface-variant text-sm">Background processing of ALV grids and spool files into Parquet format.</p>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col gap-4">
+<div class="text-tertiary font-headline font-black text-4xl opacity-30">04</div>
+<h3 class="text-on-surface font-bold uppercase tracking-tight text-sm">Upload to S3</h3>
+<p class="text-on-surface-variant text-sm">Python-orchestrated Boto3 upload with multi-part support for large datasets.</p>
+</div>
+</div>
+</section>
+<!-- Logic Terminal / Code Snippet -->
+<section class="md:col-span-7 bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/20">
+<div class="bg-surface-container-highest px-4 py-2 flex items-center justify-between">
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-[#ffecd1]"></div>
+<div class="w-3 h-3 rounded-full bg-[#ffb689]"></div>
+<div class="w-3 h-3 rounded-full bg-[#4c2100]"></div>
+</div>
+<span class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest font-bold">s3_orchestrator.py</span>
+</div>
+<div class="p-8 font-mono text-xs leading-relaxed overflow-x-auto">
+<pre class="text-secondary"><span class="text-tertiary">import</span> boto3
+<span class="text-tertiary">from</span> botocore.exceptions <span class="text-tertiary">import</span> NoCredentialsError
+
+<span class="text-primary">def</span> <span class="text-on-surface">upload_to_s3</span>(file_name, bucket, object_name=None):
+    <span class="text-on-surface-variant">"""Upload SAP Extract to AWS S3 Bucket"""</span>
+    s3_client = boto3.client(<span class="text-secondary-fixed">'s3'</span>)
+    <span class="text-primary">try</span>:
+        response = s3_client.upload_file(file_name, bucket, object_name or file_name)
+        <span class="text-primary">return</span> True
+    <span class="text-primary">except</span> FileNotFoundError:
+        <span class="text-error">print</span>(<span class="text-secondary-fixed">"The file was not found"</span>)
+        <span class="text-primary">return</span> False
+    <span class="text-primary">except</span> NoCredentialsError:
+        <span class="text-error">print</span>(<span class="text-secondary-fixed">"Credentials not available"</span>)
+        <span class="text-primary">return</span> False</pre>
+</div>
+</section>
+<!-- Impact / Results -->
+<section class="md:col-span-5 bg-gradient-to-br from-primary-container to-surface-container-low p-10 rounded-xl flex flex-col justify-center">
+<h2 class="font-headline text-2xl font-bold text-primary mb-8">Impact Metrics</h2>
+<div class="space-y-8">
+<div class="flex items-center gap-6">
+<span class="font-headline text-4xl font-black text-tertiary">90%</span>
+<div class="h-px flex-grow bg-outline-variant/20"></div>
+<span class="text-xs uppercase tracking-widest text-on-surface-variant text-right">Manual Effort <br/>Reduction</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-headline text-4xl font-black text-secondary">0.2s</span>
+<div class="h-px flex-grow bg-outline-variant/20"></div>
+<span class="text-xs uppercase tracking-widest text-on-surface-variant text-right">Data Latency <br/>(Near Real-time)</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="font-headline text-4xl font-black text-on-surface">100%</span>
+<div class="h-px flex-grow bg-outline-variant/20"></div>
+<span class="text-xs uppercase tracking-widest text-on-surface-variant text-right">Audit Trail <br/>Compliance</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Visual Asset Placeholder -->
+<div class="mt-12 rounded-xl overflow-hidden h-[400px] bg-surface-container relative">
+<img alt="Abstract technology visualization" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" data-alt="Abstract neural network with digital connections and nodes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSxpkjHUtHHQjMvJ8-SsCcZ4KsphohkH2FwQVX78OEBBeTPeRrSuqJmHDRb19pkt80hqkVPjlUXBW55txIvHGCzhpueQ5g45MM3-g1CgY1WUwm24a1XUosBu0GoDuBD7h5ooC4z9jKHap2PKZB0FpwcshTt5M5YC4BPpSDEODz17SQngPX3QtTt87NcLPwgqgHnz4Y1ZES-0KL2J9uSfDWTT69S0_xRO8nJ9lfOPqt4taUhV6McbEoMAZ9R7D03MH1v9TBpL230RBA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-10 left-10">
+<h3 class="font-headline text-3xl font-bold text-on-surface">System Architecture</h3>
+<p class="text-on-surface-variant font-body">Neural Orchestration Logic Layer</p>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 border-t border-[#a5cbea]/5 bg-[#001524]">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 gap-6 max-w-7xl mx-auto">
+<span class="font-space-grotesk font-bold text-[#ffb689]">KINETIC_ENG</span>
+<span class="font-inter text-xs tracking-widest uppercase text-[#a5cbea]/50">© 2025 THE KINETIC ENGINEER | NEURAL ARCHITECT</span>
+<div class="flex gap-6">
+<a class="text-[#a5cbea]/50 hover:text-[#8fd1de] transition-colors duration-300 hover:-translate-y-1 transition-transform font-inter text-xs tracking-widest uppercase" href="#">LinkedIn</a>
+<a class="text-[#a5cbea]/50 hover:text-[#8fd1de] transition-colors duration-300 hover:-translate-y-1 transition-transform font-inter text-xs tracking-widest uppercase" href="#">GitHub</a>
+<a class="text-[#a5cbea]/50 hover:text-[#8fd1de] transition-colors duration-300 hover:-translate-y-1 transition-transform font-inter text-xs tracking-widest uppercase" href="#">Email</a>
+</div>
+</div>
+</footer>
+</body></html>
