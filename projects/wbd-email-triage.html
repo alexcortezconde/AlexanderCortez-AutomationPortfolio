@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Agentic Email Intelligence & Bot Monitoring | Alexander Cortez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://cdn.tailwindcss.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "secondary-fixed": "#abedfb", "primary": "#a5cbea",
+                    "on-secondary-fixed": "#001f25", "surface-variant": "#233747",
+                    "inverse-on-surface": "#1e3242", "on-background": "#d0e5fa",
+                    "surface-tint": "#a5cbea", "secondary-fixed-dim": "#8fd1de",
+                    "secondary": "#8fd1de", "inverse-surface": "#d0e5fa",
+                    "surface-bright": "#273b4c", "outline": "#8c9197",
+                    "on-primary-container": "#7398b6", "on-error": "#690005",
+                    "on-surface-variant": "#c2c7cd", "on-surface": "#d0e5fa",
+                    "on-primary-fixed": "#001e2f", "on-error-container": "#ffdad6",
+                    "primary-container": "#003049", "on-primary-fixed-variant": "#244a64",
+                    "surface-container-highest": "#233747", "outline-variant": "#42474d",
+                    "tertiary-fixed": "#ffdbc8", "on-tertiary-container": "#eb7300",
+                    "surface-dim": "#001524", "on-secondary-container": "#88c9d7",
+                    "background": "#001524", "primary-fixed": "#cae6ff",
+                    "surface-container-low": "#071d2d", "on-tertiary-fixed": "#311300",
+                    "surface-container-lowest": "#00101c", "tertiary-fixed-dim": "#ffb689",
+                    "secondary-container": "#005662", "error-container": "#93000a",
+                    "error": "#ffb4ab", "on-secondary-fixed-variant": "#004e59",
+                    "surface-container": "#0c2131", "on-tertiary-fixed-variant": "#733500",
+                    "on-tertiary": "#512300", "tertiary-container": "#4c2100",
+                    "tertiary": "#ffb689", "surface-container-high": "#172c3c",
+                    "surface": "#001524", "primary-fixed-dim": "#a5cbea",
+                    "on-primary": "#05344d", "on-secondary": "#00363e",
+                    "inverse-primary": "#3d627d"
+                },
+                fontFamily: { "headline": ["Space Grotesk"], "body": ["Inter"], "label": ["Inter"] },
+                borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+            },
+        },
+    }
+</script>
+<style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    body { background-color: #001524; color: #d0e5fa; font-family: 'Inter', sans-serif; }
+    .glass-panel { background: rgba(35,55,71,0.4); backdrop-filter: blur(16px); border: 1px solid rgba(66,71,77,0.15); }
+
+    /* ── Automation Flow ─────────────────────── */
+    .fn-wrap  { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
+    .fn-track {
+        display: flex; align-items: flex-start;
+        min-width: 700px; padding: 28px 8px 12px; gap: 0;
+    }
+    .fn-node {
+        display: flex; flex-direction: column; align-items: center;
+        flex-shrink: 0; width: 112px;
+        opacity: 0.2; transition: opacity 0.55s ease;
+        position: relative;
+    }
+    .fn-node.fn-active { opacity: 1; }
+    .fn-icon {
+        width: 64px; height: 64px; border-radius: 16px;
+        background: #00101c; border: 1px solid rgba(165,203,234,0.1);
+        display: flex; align-items: center; justify-content: center;
+        transition: box-shadow 0.6s ease, border-color 0.6s ease;
+        position: relative; overflow: hidden;
+    }
+    #fn-inbox.fn-active   .fn-icon { box-shadow: 0 0 24px rgba(255,182,137,.5); border-color: rgba(255,182,137,.4); }
+    #fn-bot.fn-active     .fn-icon { box-shadow: 0 0 24px rgba(165,203,234,.5); border-color: rgba(165,203,234,.4); }
+    #fn-agent.fn-active   .fn-icon { box-shadow: 0 0 24px rgba(143,209,222,.5); border-color: rgba(143,209,222,.4); }
+    #fn-sp.fn-active      .fn-icon { box-shadow: 0 0 24px rgba(255,182,137,.5); border-color: rgba(255,182,137,.4); }
+    #fn-pbi.fn-active     .fn-icon { box-shadow: 0 0 24px rgba(165,203,234,.5); border-color: rgba(165,203,234,.4); }
+    #fn-hitl.fn-complete  .fn-icon {
+        box-shadow: 0 0 32px rgba(165,203,234,.6), 0 0 64px rgba(143,209,222,.2);
+        border-color: rgba(165,203,234,.6);
+    }
+    #fn-hitl.fn-complete .fn-icon::after {
+        content: ''; position: absolute; inset: -6px;
+        border-radius: 20px; border: 1.5px solid rgba(165,203,234,.4);
+        animation: ripple 0.9s ease-out 0.2s 2;
+    }
+    @keyframes ripple { 0% { transform: scale(1); opacity:.8; } 100% { transform: scale(1.5); opacity:0; } }
+
+    .fn-title {
+        font-family: 'Space Grotesk', sans-serif; font-weight: 900;
+        font-size: 10px; text-transform: uppercase; letter-spacing: .1em;
+        margin-top: 10px; text-align: center; line-height: 1.3;
+    }
+    .fn-sub { font-size: 9px; color: rgba(194,199,205,.55); text-align: center; margin-top: 3px; line-height: 1.4; }
+
+    .fn-conn {
+        flex: 1; position: relative; min-width: 28px;
+        height: 64px; display: flex; align-items: center;
+    }
+    .fn-line {
+        position: absolute; left: 0; right: 0; top: 50%;
+        height: 1px; background: rgba(165,203,234,.1);
+    }
+    .fn-dot {
+        position: absolute; top: 50%; left: 0%;
+        width: 10px; height: 10px; border-radius: 50%;
+        background: #a5cbea;
+        box-shadow: 0 0 8px #a5cbea, 0 0 18px rgba(165,203,234,.5);
+        transform: translate(-50%,-50%);
+        opacity: 0; pointer-events: none;
+    }
+    .fn-dot.dot-run { animation: dotgo .62s cubic-bezier(.4,0,.2,1) forwards; }
+    @keyframes dotgo { 0%{left:0%;opacity:0;} 8%{opacity:1;} 92%{opacity:1;} 100%{left:100%;opacity:0;} }
+
+    .fn-blinking .fn-icon { animation: rblink .22s ease-in-out 4; }
+    @keyframes rblink { 0%,100%{background:#00101c;} 50%{background:rgba(165,203,234,.22);} }
+
+    .fn-desc-row { display:flex; min-width:700px; }
+    .fn-desc { flex-shrink:0; width:112px; padding: 0 4px; }
+    .fn-desc-gap { flex:1; }
+
+    /* Proposed badge pulse */
+    .proposed-badge { animation: proposedPulse 2.5s ease-in-out infinite; }
+    @keyframes proposedPulse { 0%,100%{opacity:1;} 50%{opacity:.5;} }
+</style>
+</head>
+<body class="selection:bg-tertiary/30">
+
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#001524]/80 backdrop-blur-xl border-b border-[#a5cbea]/10 shadow-2xl shadow-[#001524]/50">
+<div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+<a class="font-headline text-xl font-black tracking-tighter text-[#a5cbea] hover:opacity-80 transition-opacity" href="../index.html">Alexander Cortez</a>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#ffb689] border-b-2 border-[#ffb689] pb-1" href="../projects.html">Projects</a>
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../experience.html">Experience</a>
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../about.html">About</a>
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../contact.html">Contact</a>
+<a href="../assets/AlexanderCortez_UiPath_CV.pdf" download class="ml-4 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-xs uppercase rounded-md hover:scale-95 transition-transform">Resume</a>
+</div>
+<button class="md:hidden text-primary"><span class="material-symbols-outlined">menu</span></button>
+</div>
+</nav>
+
+<main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+
+<!-- Back Link -->
+<a href="../projects.html" class="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-sm font-medium mb-12 group">
+<span class="material-symbols-outlined text-base group-hover:-translate-x-1 transition-transform">arrow_back</span>
+All Projects
+</a>
+
+<!-- Proposed Banner -->
+<div class="flex items-center gap-3 mb-8 px-5 py-3 bg-tertiary/10 border border-tertiary/30 rounded-xl w-fit">
+<span class="w-2 h-2 rounded-full bg-tertiary proposed-badge"></span>
+<span class="font-headline font-black text-xs uppercase tracking-widest text-tertiary">Proposed / In Development — Pending PRD Authorization</span>
+</div>
+
+<!-- Hero -->
+<header class="mb-16">
+<div class="flex items-center gap-4 mb-5">
+<div class="h-[2px] w-12 bg-secondary"></div>
+<span class="font-label text-xs uppercase tracking-[0.4em] text-secondary font-black">AI &amp; Agentic · Warner Bros. Discovery</span>
+</div>
+<h1 class="font-headline text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] mb-6">
+Agentic Email<br/><span class="text-secondary italic">Intelligence</span>
+</h1>
+<p class="max-w-2xl text-on-surface-variant font-light text-lg leading-relaxed mt-4">
+An AI-powered system that autonomously monitors a shared inbox, classifies messages, detects zombie bot failures, and routes escalations — with Human-in-the-Loop oversight for edge cases.
+</p>
+<div class="flex flex-wrap gap-6 mt-8 text-sm text-on-surface-variant">
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-tertiary text-base">calendar_month</span><span>Jan 2026 → Mar 2026</span></div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">person</span><span>Proposer &amp; AI Systems Designer</span></div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-base">business</span><span>Warner Bros. Discovery</span></div>
+</div>
+</header>
+
+<!-- Row 1: Description + Stack -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+
+<!-- Description Card -->
+<div class="lg:col-span-8 glass-panel rounded-2xl p-8 md:p-10">
+<p class="text-on-surface-variant text-base leading-relaxed mb-8">A proposed agentic system at Warner Bros. Discovery that autonomously monitors the automation team's shared inbox, classifies incoming emails using UiPath Maestro AI, detects zombie bot failures, logs structured data to SharePoint, surfaces insights in Power BI, and escalates ambiguous cases via Human-in-the-Loop — targeting near-zero manual triage. Pending PRD authorization.</p>
+<div class="pt-6 border-t border-outline-variant/10 flex items-center gap-3">
+  <span class="material-symbols-outlined text-on-surface-variant text-sm">person</span>
+  <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">My Role:</span>
+  <span class="text-[11px] text-on-surface-variant">Proposer &amp; AI Systems Designer — initiative originator, full architecture and PRD author</span>
+</div>
+</div>
+
+<!-- Stack -->
+<div class="lg:col-span-4 glass-panel rounded-2xl p-8">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-secondary text-xl">layers</span>
+<h2 class="font-headline font-black text-xs uppercase tracking-widest text-secondary">Tech Stack</h2>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-xl border border-secondary/10">
+<img src="../assets/icon-uipath.png" alt="UiPath Maestro" style="width:32px;height:32px;object-fit:contain;flex-shrink:0"/>
+<div><div class="font-headline font-black text-xs text-secondary">UiPath Maestro</div><div class="text-[10px] text-on-surface-variant">Agentic orchestration layer</div></div>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-xl border border-primary/10">
+<img src="../assets/icon-uipath.png" alt="UiPath Studio" style="width:32px;height:32px;object-fit:contain;flex-shrink:0"/>
+<div><div class="font-headline font-black text-xs text-primary">UiPath Studio</div><div class="text-[10px] text-on-surface-variant">Email reader bot</div></div>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-xl border border-tertiary/10">
+<img src="../assets/icon-microsoft.png" alt="Outlook" style="width:32px;height:32px;object-fit:contain;flex-shrink:0"/>
+<div><div class="font-headline font-black text-xs text-tertiary">Outlook / Exchange</div><div class="text-[10px] text-on-surface-variant">Shared inbox source</div></div>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-xl border border-primary/10">
+<img src="../assets/icon-microsoft.png" alt="SharePoint" style="width:32px;height:32px;object-fit:contain;flex-shrink:0"/>
+<div><div class="font-headline font-black text-xs text-primary">SharePoint</div><div class="text-[10px] text-on-surface-variant">Structured log storage</div></div>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-xl border border-secondary/10">
+<img src="../assets/icon-powerbi.png" alt="Power BI" style="width:32px;height:32px;object-fit:contain;flex-shrink:0"/>
+<div><div class="font-headline font-black text-xs text-secondary">Power BI</div><div class="text-[10px] text-on-surface-variant">Real-time classification dashboard</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Automation Flow -->
+<div class="glass-panel rounded-2xl p-8 md:p-10 mb-8">
+<div class="flex items-center gap-2 mb-8">
+<span class="material-symbols-outlined text-secondary text-xl">account_tree</span>
+<h2 class="font-headline font-black text-xs uppercase tracking-widest text-secondary">Agentic Pipeline Flow</h2>
+</div>
+<div class="fn-wrap">
+<div class="fn-track" id="flow-track">
+
+<!-- Node 1: Outlook Inbox -->
+<div class="fn-node" id="fn-inbox">
+<div class="fn-icon"><span class="material-symbols-outlined text-[#ffb689] text-2xl">mail</span></div>
+<div class="fn-title" style="color:#ffb689">Outlook<br/>Inbox</div>
+<div class="fn-sub">Shared inbox<br/>monitored</div>
+</div>
+<div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="d1"></div></div>
+
+<!-- Node 2: UiPath Bot -->
+<div class="fn-node" id="fn-bot">
+<div class="fn-icon"><span class="material-symbols-outlined text-[#a5cbea] text-2xl">smart_toy</span></div>
+<div class="fn-title" style="color:#a5cbea">UiPath<br/>Bot</div>
+<div class="fn-sub">Email read<br/>&amp; extract</div>
+</div>
+<div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="d2"></div></div>
+
+<!-- Node 3: AI Agent -->
+<div class="fn-node" id="fn-agent">
+<div class="fn-icon"><span class="material-symbols-outlined text-[#8fd1de] text-2xl">psychology</span></div>
+<div class="fn-title" style="color:#8fd1de">AI Agent<br/>(Maestro)</div>
+<div class="fn-sub">Classify<br/>&amp; detect</div>
+</div>
+<div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="d3"></div></div>
+
+<!-- Node 4: SharePoint -->
+<div class="fn-node" id="fn-sp">
+<div class="fn-icon"><span class="material-symbols-outlined text-[#ffb689] text-2xl">folder_open</span></div>
+<div class="fn-title" style="color:#ffb689">SharePoint<br/>Log</div>
+<div class="fn-sub">Structured<br/>storage</div>
+</div>
+<div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="d4"></div></div>
+
+<!-- Node 5: Power BI -->
+<div class="fn-node" id="fn-pbi">
+<div class="fn-icon"><span class="material-symbols-outlined text-[#a5cbea] text-2xl">bar_chart</span></div>
+<div class="fn-title" style="color:#a5cbea">Power BI<br/>Dashboard</div>
+<div class="fn-sub">Real-time<br/>visibility</div>
+</div>
+<div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="d5"></div></div>
+
+<!-- Node 6: HITL Action Center -->
+<div class="fn-node" id="fn-hitl">
+<div class="fn-icon"><span class="material-symbols-outlined text-[#8fd1de] text-2xl">manage_accounts</span></div>
+<div class="fn-title" style="color:#8fd1de">HITL<br/>Action Center</div>
+<div class="fn-sub">Human<br/>escalation</div>
+</div>
+
+</div>
+</div>
+<!-- Description row -->
+<div class="fn-wrap mt-2">
+<div class="fn-desc-row text-[9px] text-on-surface-variant/60 leading-tight">
+<div class="fn-desc">New email arrives in shared automation inbox</div>
+<div class="fn-desc-gap"></div>
+<div class="fn-desc">Bot reads, parses, and extracts email metadata</div>
+<div class="fn-desc-gap"></div>
+<div class="fn-desc">AI classifies intent: alert, request, zombie, noise</div>
+<div class="fn-desc-gap"></div>
+<div class="fn-desc">Structured record written to SharePoint list</div>
+<div class="fn-desc-gap"></div>
+<div class="fn-desc">Dashboard refreshes with classification data</div>
+<div class="fn-desc-gap"></div>
+<div class="fn-desc">Ambiguous cases escalated to human reviewer</div>
+</div>
+</div>
+</div>
+
+<!-- Row 2: Execution Log + Metrics -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+<!-- Problem / Solution / Result -->
+<div class="lg:col-span-8 glass-panel rounded-2xl p-8 md:p-10">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-error text-xl">report_problem</span>
+<h2 class="font-headline font-black text-xs uppercase tracking-widest text-error">Problem</h2>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">The automation team's shared inbox receives a high volume of mixed messages — bot failure alerts, status updates, stakeholder requests, and noise — with no classification system, causing delayed responses and missed zombie bot incidents.</p>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary text-xl">build</span>
+<h2 class="font-headline font-black text-xs uppercase tracking-widest text-secondary">Solution</h2>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">An agentic pipeline using UiPath Maestro where a UiPath bot reads incoming emails, passes them to an AI agent for intent classification, logs structured data to SharePoint, surfaces insights in Power BI, and triggers HITL escalation for ambiguous cases.</p>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-xl">emoji_events</span>
+<h2 class="font-headline font-black text-xs uppercase tracking-widest text-primary">Result</h2>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">Structured email classification with automated zombie bot detection, full auditability in SharePoint, real-time visibility in Power BI, and a HITL escalation channel for edge cases — targeting near-zero manual triage. <span class="text-tertiary font-bold">(Pending PRD.)</span></p>
+</div>
+</div>
+</div>
+
+<!-- Metrics -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="glass-panel rounded-2xl p-6 flex-1 flex flex-col justify-center items-center text-center">
+<div class="text-3xl font-headline font-black text-secondary mb-1">Agentic</div>
+<div class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">AI-Driven Classification</div>
+</div>
+<div class="glass-panel rounded-2xl p-6 flex-1 flex flex-col justify-center items-center text-center">
+<div class="text-3xl font-headline font-black text-primary mb-1">HITL</div>
+<div class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Human-in-the-Loop Ready</div>
+</div>
+<div class="glass-panel rounded-2xl p-6 flex-1 flex flex-col justify-center items-center text-center">
+<div class="text-3xl font-headline font-black text-tertiary mb-1">0%</div>
+<div class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Manual Triage Target</div>
+</div>
+<div class="glass-panel rounded-2xl p-4 flex items-center gap-3 border border-tertiary/20">
+<span class="w-2 h-2 rounded-full bg-tertiary proposed-badge shrink-0"></span>
+<span class="text-[10px] font-black uppercase tracking-widest text-tertiary">Pending PRD Authorization</span>
+</div>
+</div>
+</div>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#00101c] w-full py-16 border-t border-[#a5cbea]/10 mt-16">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 gap-10 max-w-7xl mx-auto">
+<div class="font-headline font-black text-2xl tracking-tighter text-[#a5cbea]">Alexander Cortez</div>
+<div class="font-body text-xs tracking-[0.2em] font-bold uppercase text-[#a5cbea]/50 flex flex-wrap justify-center gap-10">
+<a class="hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="#">LinkedIn</a>
+<a class="hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="#">GitHub</a>
+<a class="hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="#">Email</a>
+</div>
+<div class="font-body text-[10px] tracking-widest font-medium uppercase text-[#a5cbea]/30 text-center">© 2025 Alexander Cortez | RPA &amp; AI Engineer</div>
+</div>
+</footer>
+
+<!-- Background Decoration -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-secondary/10 blur-[150px] rounded-full"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[150px] rounded-full"></div>
+<div class="absolute top-[30%] right-[10%] w-[20%] h-[20%] bg-tertiary/5 blur-[100px] rounded-full"></div>
+</div>
+
+<!-- Flow Animation Script -->
+<script>
+(function(){
+    const nodes = ['fn-inbox','fn-bot','fn-agent','fn-sp','fn-pbi','fn-hitl'];
+    const dots  = ['d1','d2','d3','d4','d5'];
+    const CYCLE = 8000;
+
+    function activate(id){ document.getElementById(id)?.classList.add('fn-active','fn-blinking'); }
+    function complete(id){ const el=document.getElementById(id); el?.classList.remove('fn-blinking'); el?.classList.add('fn-complete'); }
+    function dot(id){ const el=document.getElementById(id); if(!el)return; el.classList.remove('dot-run'); void el.offsetWidth; el.classList.add('dot-run'); }
+
+    function runCycle(){
+        nodes.forEach(id=>{ const el=document.getElementById(id); el?.classList.remove('fn-active','fn-blinking','fn-complete'); });
+        dots.forEach(id=>{ const el=document.getElementById(id); el?.classList.remove('dot-run'); });
+
+        setTimeout(()=>activate('fn-inbox'),200);
+        setTimeout(()=>{ dot('d1'); },800);
+        setTimeout(()=>{ complete('fn-inbox'); activate('fn-bot'); },1200);
+        setTimeout(()=>{ dot('d2'); },1800);
+        setTimeout(()=>{ complete('fn-bot'); activate('fn-agent'); },2200);
+        setTimeout(()=>{ dot('d3'); },2900);
+        setTimeout(()=>{ complete('fn-agent'); activate('fn-sp'); },3300);
+        setTimeout(()=>{ dot('d4'); },3900);
+        setTimeout(()=>{ complete('fn-sp'); activate('fn-pbi'); },4300);
+        setTimeout(()=>{ dot('d5'); },4900);
+        setTimeout(()=>{ complete('fn-pbi'); activate('fn-hitl'); complete('fn-hitl'); },5300);
+        setTimeout(runCycle, CYCLE);
+    }
+    runCycle();
+})();
+</script>
+
+
+</body></html>

@@ -171,8 +171,6 @@
             50%     { background: rgba(165,203,234,.22); }
         }
 
-        @keyframes cursorblink { 0%,100%{opacity:1} 50%{opacity:0} }
-
         /* step descriptions row */
         .fn-desc-row { display:flex; min-width:620px; }
         .fn-desc { flex-shrink:0; width:112px; padding: 0 4px; }
@@ -187,9 +185,9 @@
 <div class="hidden md:flex gap-8 items-center">
 <a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#ffb689] border-b-2 border-[#ffb689] pb-1" href="../projects.html">Projects</a>
 <a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../experience.html">Experience</a>
-<a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="#">About</a>
+<a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../about.html">About</a>
 <a class="font-space-grotesk font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../contact.html">Contact</a>
-<button class="ml-4 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-xs uppercase rounded-md hover:scale-95 transition-transform">Resume</button>
+<a href="../assets/AlexanderCortez_UiPath_CV.pdf" download class="ml-4 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-xs uppercase rounded-md hover:scale-95 transition-transform">Resume</a>
 </div>
 <button class="md:hidden text-primary">
 <span class="material-symbols-outlined">menu</span>
@@ -206,23 +204,23 @@
 
 <!-- ── Hero ──────────────────────────────────────────── -->
 <header class="mb-16">
-    <span class="font-label text-tertiary text-xs font-black tracking-[0.25em] uppercase mb-5 block">RPA Case Study · Bosch</span>
+    <span class="font-label text-tertiary text-xs font-black tracking-[0.25em] uppercase mb-5 block">RPA Case Study · Warner Bros. Discovery</span>
     <h1 class="font-headline text-5xl md:text-7xl font-black tracking-tighter leading-none text-on-surface mb-8">
         SAP Data Extraction<br/><span class="text-secondary">&amp; S3 Orchestration</span>
     </h1>
     <!-- Quick stat chips -->
     <div class="flex flex-wrap gap-4">
         <div class="flex items-center gap-2 px-4 py-2 bg-tertiary/10 border border-tertiary/20 rounded-full">
-            <span class="font-headline font-black text-tertiary text-lg">90%</span>
-            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Manual effort reduction</span>
+            <span class="font-headline font-black text-tertiary text-lg">83%</span>
+            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Time reduction</span>
         </div>
         <div class="flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full">
-            <span class="font-headline font-black text-secondary text-lg">0.2s</span>
-            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Data latency</span>
+            <span class="font-headline font-black text-secondary text-lg">4</span>
+            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Bots in production</span>
         </div>
         <div class="flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
-            <span class="font-headline font-black text-primary text-lg">100%</span>
-            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Audit compliance</span>
+            <span class="font-headline font-black text-primary text-lg">Daily</span>
+            <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Runs outside business hours</span>
         </div>
     </div>
     <div class="h-[2px] w-24 bg-gradient-to-r from-tertiary to-transparent mt-10"></div>
@@ -231,26 +229,13 @@
 <!-- ── Row 1: Problem + Overview · Tech Stack ──────── -->
 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
 
-    <!-- Problem + Overview -->
-    <section class="md:col-span-8 glass-panel p-8 rounded-xl">
-        <div class="flex items-center gap-3 mb-2">
-            <div class="w-1.5 h-1.5 rounded-full bg-tertiary"></div>
-            <span class="text-[10px] uppercase tracking-[0.3em] text-tertiary font-black">The Problem</span>
-        </div>
-        <p class="font-body text-on-surface-variant leading-relaxed mb-6 text-base">
-            The finance team at Bosch spent <span class="text-on-surface font-semibold">3+ hours daily</span> manually opening SAP, running transactions, exporting Excel reports, renaming files, and uploading them via FTP. The process was undocumented, error-prone, and blocked by SAP access queues shared across multiple users.
-        </p>
-        <div class="flex items-center gap-3 mb-2">
-            <div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
-            <span class="text-[10px] uppercase tracking-[0.3em] text-secondary font-black">The Solution</span>
-        </div>
-        <p class="font-body text-on-surface-variant leading-relaxed text-base">
-            A fully automated pipeline that runs daily at 06:00 UTC. The UiPath bot logs into SAP, injects the parameters, extracts the ALV reports, converts them to Parquet, and uploads them to an <span class="text-secondary font-semibold">AWS S3</span> data lake — without any human intervention.
-        </p>
-        <div class="mt-8 pt-6 border-t border-outline-variant/10 flex items-center gap-3">
+    <!-- Description Card -->
+    <section class="md:col-span-8 glass-panel rounded-2xl p-8 md:p-10">
+        <p class="text-on-surface-variant text-base leading-relaxed mb-8">Multiple teams at Warner Bros. Discovery spent 30 minutes per day manually logging into SAP, downloading TXT reports, and uploading them to AWS S3 — executed during business hours with no standardization. Designed and deployed 4 UiPath bots, one per team, each automating the full pipeline: scheduled trigger, SAP login, report generation, and S3 upload — all running off-hours, daily.</p>
+        <div class="pt-6 border-t border-outline-variant/10 flex items-center gap-3">
             <span class="material-symbols-outlined text-on-surface-variant text-sm">person</span>
             <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">My Role:</span>
-            <span class="text-[11px] text-on-surface-variant">Sole developer — architecture, UiPath workflow, Python orchestration layer</span>
+            <span class="text-[11px] text-on-surface-variant">Sole RPA Developer — designed and delivered all 4 bot solutions over 3 months</span>
         </div>
     </section>
 
@@ -260,7 +245,7 @@
         <ul class="space-y-5">
             <li class="flex items-center gap-4">
                 <div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-primary flex-shrink-0">
-                    <span class="material-symbols-outlined text-lg">robot_2</span>
+                    <img src="../assets/icon-uipath.png" alt="UiPath" style="width:32px;height:32px;object-fit:contain"/>
                 </div>
                 <div>
                     <p class="text-sm font-bold text-on-surface">UiPath</p>
@@ -269,29 +254,29 @@
             </li>
             <li class="flex items-center gap-4">
                 <div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-secondary flex-shrink-0">
-                    <span class="material-symbols-outlined text-lg">database</span>
+                    <img src="../assets/icon-sap.jpeg" alt="SAP ERP" style="width:32px;height:32px;object-fit:contain"/>
                 </div>
                 <div>
                     <p class="text-sm font-bold text-on-surface">SAP ERP</p>
-                    <p class="text-xs text-on-surface-variant">System of record (MB52, FBL3N)</p>
-                </div>
-            </li>
-            <li class="flex items-center gap-4">
-                <div class="w-10 h-10 rounded-lg bg-tertiary-container flex items-center justify-center text-tertiary flex-shrink-0">
-                    <span class="material-symbols-outlined text-lg">code</span>
-                </div>
-                <div>
-                    <p class="text-sm font-bold text-on-surface">Python</p>
-                    <p class="text-xs text-on-surface-variant">Orchestration & Boto3 SDK</p>
+                    <p class="text-xs text-on-surface-variant">Report generation &amp; TXT export</p>
                 </div>
             </li>
             <li class="flex items-center gap-4">
                 <div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-on-surface flex-shrink-0">
-                    <span class="material-symbols-outlined text-lg">cloud_upload</span>
+                    <img src="../assets/icon-amazon.png" class="w-8 h-8 object-contain" alt="AWS S3"/>
                 </div>
                 <div>
                     <p class="text-sm font-bold text-on-surface">AWS S3</p>
-                    <p class="text-xs text-on-surface-variant">Cloud data lake</p>
+                    <p class="text-xs text-on-surface-variant">Cloud storage destination</p>
+                </div>
+            </li>
+            <li class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-primary flex-shrink-0">
+                    <img src="../assets/icon-uipath.png" alt="UiPath Orchestrator" style="width:32px;height:32px;object-fit:contain"/>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-on-surface">UiPath Orchestrator</p>
+                    <p class="text-xs text-on-surface-variant">Queue params &amp; scheduling</p>
                 </div>
             </li>
         </ul>
@@ -320,8 +305,8 @@
                 <div class="fn-icon">
                     <span class="material-symbols-outlined text-2xl" style="color:#ffb689">schedule</span>
                 </div>
-                <div class="fn-title" style="color:#ffb689">Trigger</div>
-                <div class="fn-sub">Daily<br/>06:00 UTC</div>
+                <div class="fn-title" style="color:#ffb689">Scheduled<br/>Trigger</div>
+                <div class="fn-sub">Off-hours<br/>daily run</div>
             </div>
 
             <div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="c1"></div></div>
@@ -343,19 +328,19 @@
                     <span class="material-symbols-outlined text-2xl" style="color:#8fd1de">table_chart</span>
                 </div>
                 <div class="fn-title" style="color:#8fd1de">SAP ERP</div>
-                <div class="fn-sub">Params<br/>injected</div>
+                <div class="fn-sub">Queue params<br/>loaded</div>
                 <div class="fn-typing" aria-hidden="true"><span></span><span></span><span></span></div>
             </div>
 
             <div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="c3"></div></div>
 
-            <!-- Node 4: Export -->
+            <!-- Node 4: TXT Download -->
             <div class="fn-node" id="fn-excel">
                 <div class="fn-icon">
-                    <span class="material-symbols-outlined text-2xl" style="color:#ffb689">download</span>
+                    <span class="material-symbols-outlined text-2xl" style="color:#ffb689">file_download</span>
                 </div>
-                <div class="fn-title" style="color:#ffb689">Report Export</div>
-                <div class="fn-sub">ALV → Parquet<br/>file ready</div>
+                <div class="fn-title" style="color:#ffb689">TXT Report</div>
+                <div class="fn-sub">Report<br/>downloaded</div>
             </div>
 
             <div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="c4"></div></div>
@@ -366,7 +351,7 @@
                     <span class="material-symbols-outlined text-2xl" style="color:#a5cbea">cloud_upload</span>
                 </div>
                 <div class="fn-title" style="color:#a5cbea">AWS S3</div>
-                <div class="fn-sub">Secure upload<br/>complete ✓</div>
+                <div class="fn-sub">Upload<br/>complete ✓</div>
             </div>
 
         </div><!-- /fn-track -->
@@ -374,23 +359,23 @@
         <!-- Step descriptions -->
         <div class="fn-desc-row mt-2">
             <div class="fn-desc">
-                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Scheduler fires the UiPath Orchestrator job via API</p>
+                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Orchestrator fires the scheduled job outside business hours</p>
             </div>
             <div class="fn-desc-gap"></div>
             <div class="fn-desc">
-                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Bot opens SAP GUI, authenticates with vault credentials</p>
+                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Bot opens SAP GUI, authenticates via Orchestrator credentials</p>
             </div>
             <div class="fn-desc-gap"></div>
             <div class="fn-desc">
-                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Navigates to MB52/FBL3N, injects date &amp; plant params</p>
+                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Queue parameters read from Orchestrator Assets, injected into SAP</p>
             </div>
             <div class="fn-desc-gap"></div>
             <div class="fn-desc">
-                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Exports ALV grid, Python converts XLS → Parquet</p>
+                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">SAP generates TXT report, bot downloads to local temp path</p>
             </div>
             <div class="fn-desc-gap"></div>
             <div class="fn-desc">
-                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Boto3 uploads to S3 with partitioned prefix, triggers SNS</p>
+                <p class="text-[10px] text-on-surface-variant/60 leading-relaxed">TXT file uploaded to AWS S3 bucket, run logged in Orchestrator</p>
             </div>
         </div>
     </div><!-- /fn-wrap -->
@@ -399,33 +384,30 @@
 <!-- ── Row 2: Code · Impact Metrics ────────────────── -->
 <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
 
-    <!-- Execution Log Terminal -->
-    <section class="md:col-span-7 bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/20 flex flex-col">
-        <!-- Title bar -->
-        <div class="bg-surface-container-highest px-5 py-3 flex items-center justify-between flex-shrink-0">
-            <div class="flex gap-2">
-                <div class="w-3 h-3 rounded-full bg-[#ff5f57]"></div>
-                <div class="w-3 h-3 rounded-full bg-[#febc2e]"></div>
-                <div class="w-3 h-3 rounded-full bg-[#28c840]"></div>
+    <!-- Problem / Solution / Result -->
+    <section class="md:col-span-8 glass-panel rounded-2xl p-8 md:p-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-error text-xl">report_problem</span>
+                    <h2 class="font-headline font-black text-xs uppercase tracking-widest text-error">Problem</h2>
+                </div>
+                <p class="text-on-surface-variant text-sm leading-relaxed">Multiple teams manually logged into SAP daily, downloaded TXT reports, and uploaded them to AWS S3 — a 30-minute process per team, run during business hours with no standardization and high error risk.</p>
             </div>
-            <div class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
-                <span class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest font-bold">execution-log · live replay</span>
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-secondary text-xl">build</span>
+                    <h2 class="font-headline font-black text-xs uppercase tracking-widest text-secondary">Solution</h2>
+                </div>
+                <p class="text-on-surface-variant text-sm leading-relaxed">Designed and deployed 4 UiPath bots — one per team — each automating the full pipeline: scheduled trigger, SAP login, Orchestrator queue parameter loading, TXT report generation, and direct S3 upload.</p>
             </div>
-            <span class="text-[9px] text-on-surface-variant/40 font-mono">2024-03-15</span>
-        </div>
-
-        <!-- Log output -->
-        <div class="p-6 font-mono text-[11px] leading-[1.85] overflow-y-auto flex-1" style="min-height:320px; max-height:380px">
-            <div id="exec-log" class="space-y-0.5"></div>
-            <span id="log-cursor" class="inline-block w-2 h-3.5 bg-primary/70 align-middle ml-0.5" style="animation: cursorblink .8s step-end infinite"></span>
-        </div>
-
-        <!-- Footer note -->
-        <div class="px-6 py-3 border-t border-outline-variant/10 bg-surface-container/40 flex-shrink-0">
-            <p class="text-[10px] text-on-surface-variant/40 leading-relaxed">
-                Real execution patterns — including the SAP popup edge case and the empty-plant guard that prevented false failures in 3 of 12 plants.
-            </p>
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="material-symbols-outlined text-primary text-xl">emoji_events</span>
+                    <h2 class="font-headline font-black text-xs uppercase tracking-widest text-primary">Result</h2>
+                </div>
+                <p class="text-on-surface-variant text-sm leading-relaxed">83% time reduction per team — from 30 minutes to 5 minutes with zero human intervention. All 4 bots run daily off-hours, delivering data to S3 before teams start their workday.</p>
+            </div>
         </div>
     </section>
 
@@ -434,124 +416,28 @@
 
         <div class="flex-1 bg-gradient-to-br from-primary-container/60 to-surface-container-low p-8 rounded-xl border border-primary/10">
             <div class="flex items-end justify-between mb-2">
-                <span class="font-headline font-black text-6xl text-tertiary">90%</span>
+                <span class="font-headline font-black text-6xl text-tertiary">83%</span>
                 <span class="material-symbols-outlined text-tertiary/40 text-4xl">trending_down</span>
             </div>
-            <p class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Manual effort eliminated</p>
-            <p class="text-[11px] text-on-surface-variant/60 mt-2 leading-relaxed">From 3+ hours daily to zero human touchpoints. The team now just checks the S3 folder.</p>
+            <p class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Time reduction per team</p>
+            <p class="text-[11px] text-on-surface-variant/60 mt-2 leading-relaxed">From 30 minutes of manual SAP work to 5 minutes — and zero human intervention needed.</p>
         </div>
 
         <div class="grid grid-cols-2 gap-4">
             <div class="bg-surface-container-low p-6 rounded-xl border border-secondary/10">
-                <span class="font-headline font-black text-3xl text-secondary">0.2s</span>
-                <p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mt-2">Data latency</p>
-                <p class="text-[10px] text-on-surface-variant/50 mt-1">Near real-time S3 availability</p>
+                <span class="font-headline font-black text-3xl text-secondary">×4</span>
+                <p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mt-2">Bots deployed</p>
+                <p class="text-[10px] text-on-surface-variant/50 mt-1">Same pipeline, 4 teams covered</p>
             </div>
             <div class="bg-surface-container-low p-6 rounded-xl border border-primary/10">
-                <span class="font-headline font-black text-3xl text-primary">100%</span>
-                <p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mt-2">Audit trail</p>
-                <p class="text-[10px] text-on-surface-variant/50 mt-1">Every run logged with timestamps</p>
+                <span class="font-headline font-black text-3xl text-primary">Daily</span>
+                <p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mt-2">Off-hours execution</p>
+                <p class="text-[10px] text-on-surface-variant/50 mt-1">Data ready before teams start work</p>
             </div>
         </div>
 
     </section>
 </div>
-
-<!-- Execution log script -->
-<script>
-(function () {
-    const LOG = [
-        { t:  400, level: 'INFO',    text: 'Scheduler fired · SAP_DataExtract_v3 queued' },
-        { t:  950, level: 'INFO',    text: 'UiPath bot instance allocated · connecting to SAP GUI...' },
-        { t: 1700, level: 'INFO',    text: 'SAP session established · authenticating via credential vault' },
-        { t: 2500, level: 'ERROR',   text: 'Unexpected popup detected — "Session will expire in 60s"' },
-        { t: 3100, level: 'RECOVER', text: 'Popup handler triggered · dismissed · session extended ✓' },
-        { t: 3800, level: 'INFO',    text: 'Navigating to MB52 · injecting params: plant=1000, date=2024-03-15' },
-        { t: 4500, level: 'WARN',    text: 'Plant 1200 returned 0 rows · no stock movements this period' },
-        { t: 5000, level: 'INFO',    text: 'Empty dataset guard triggered · skipped · audit entry logged' },
-        { t: 5700, level: 'INFO',    text: 'ALV grid exported · 14,832 rows → /tmp/MB52_20240315.xls' },
-        { t: 6300, level: 'INFO',    text: 'Converting XLS → Parquet (snappy) · 14,832 rows processed' },
-        { t: 7000, level: 'INFO',    text: 'Upload started → finance-datalake/sap/MB52/2024-03-15/' },
-        { t: 7500, level: 'INFO',    text: 'Multi-part upload · chunk 1/3 · 5.2 MB' },
-        { t: 7950, level: 'INFO',    text: 'Multi-part upload · chunk 2/3 · 5.2 MB' },
-        { t: 8350, level: 'INFO',    text: 'Multi-part upload · chunk 3/3 · 3.1 MB' },
-        { t: 8900, level: 'INFO',    text: 'SNS notification dispatched → finance-team@bosch.com' },
-        { t: 9500, level: 'SUCCESS', text: 'Pipeline complete · duration: 25.3s · 14,832 rows in S3 ✓' },
-    ];
-
-    const COLORS = {
-        INFO:    '#a5cbea',
-        WARN:    '#ffb689',
-        ERROR:   '#ff6b6b',
-        RECOVER: '#8fd1de',
-        SUCCESS: '#5fdb8f',
-    };
-
-    const BADGES = {
-        INFO:    { bg: 'rgba(165,203,234,.1)',  color: '#a5cbea'  },
-        WARN:    { bg: 'rgba(255,182,137,.12)', color: '#ffb689'  },
-        ERROR:   { bg: 'rgba(255,107,107,.15)', color: '#ff6b6b'  },
-        RECOVER: { bg: 'rgba(143,209,222,.12)', color: '#8fd1de'  },
-        SUCCESS: { bg: 'rgba(95,219,143,.15)',  color: '#5fdb8f'  },
-    };
-
-    const container = document.getElementById('exec-log');
-    const cursor    = document.getElementById('log-cursor');
-    const CYCLE     = 13000;
-
-    function formatTime(offset) {
-        const base = new Date('2024-03-15T06:00:00');
-        base.setMilliseconds(base.getMilliseconds() + offset * 0.4);
-        return base.toTimeString().slice(0, 8);
-    }
-
-    function appendLine(entry, idx) {
-        const b = BADGES[entry.level];
-        const row = document.createElement('div');
-        row.className = 'flex items-baseline gap-2 opacity-0';
-        row.style.transition = 'opacity .25s ease';
-
-        row.innerHTML =
-            `<span style="color:rgba(165,203,234,.3);flex-shrink:0">${formatTime(entry.t)}</span>` +
-            `<span style="background:${b.bg};color:${b.color};padding:1px 6px;border-radius:3px;font-size:9px;font-weight:900;letter-spacing:.08em;flex-shrink:0;min-width:58px;text-align:center">${entry.level}</span>` +
-            `<span style="color:${COLORS[entry.level]};opacity:.85">${entry.text}</span>`;
-
-        container.appendChild(row);
-        // fade in
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-            row.style.opacity = '1';
-            // scroll only inside the terminal box, never hijack page scroll
-            container.scrollTop = container.scrollHeight;
-        }));
-    }
-
-    let timers = [];
-
-    function runLog() {
-        // clear
-        timers.forEach(clearTimeout);
-        timers = [];
-        container.innerHTML = '';
-
-        LOG.forEach((entry, i) => {
-            timers.push(setTimeout(() => appendLine(entry, i), entry.t));
-        });
-
-        // restart
-        timers.push(setTimeout(() => {
-            // brief pause then fade out and restart
-            container.style.transition = 'opacity .6s ease';
-            container.style.opacity    = '0';
-            timers.push(setTimeout(() => {
-                container.style.opacity = '1';
-                runLog();
-            }, 800));
-        }, CYCLE));
-    }
-
-    runLog();
-})();
-</script>
 
 <!-- Flow animation script -->
 <script>

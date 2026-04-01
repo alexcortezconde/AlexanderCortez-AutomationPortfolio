@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WBD Bot Portfolio Stabilization | Alexander Cortez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://cdn.tailwindcss.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "secondary-fixed": "#abedfb", "primary": "#a5cbea",
+                    "on-secondary-fixed": "#001f25", "surface-variant": "#233747",
+                    "inverse-on-surface": "#1e3242", "on-background": "#d0e5fa",
+                    "surface-tint": "#a5cbea", "secondary-fixed-dim": "#8fd1de",
+                    "secondary": "#8fd1de", "inverse-surface": "#d0e5fa",
+                    "surface-bright": "#273b4c", "outline": "#8c9197",
+                    "on-primary-container": "#7398b6", "on-error": "#690005",
+                    "on-surface-variant": "#c2c7cd", "on-surface": "#d0e5fa",
+                    "on-primary-fixed": "#001e2f", "on-error-container": "#ffdad6",
+                    "primary-container": "#003049", "on-primary-fixed-variant": "#244a64",
+                    "surface-container-highest": "#233747", "outline-variant": "#42474d",
+                    "tertiary-fixed": "#ffdbc8", "on-tertiary-container": "#eb7300",
+                    "surface-dim": "#001524", "on-secondary-container": "#88c9d7",
+                    "background": "#001524", "primary-fixed": "#cae6ff",
+                    "surface-container-low": "#071d2d", "on-tertiary-fixed": "#311300",
+                    "surface-container-lowest": "#00101c", "tertiary-fixed-dim": "#ffb689",
+                    "secondary-container": "#005662", "error-container": "#93000a",
+                    "error": "#ffb4ab", "on-secondary-fixed-variant": "#004e59",
+                    "surface-container": "#0c2131", "on-tertiary-fixed-variant": "#733500",
+                    "on-tertiary": "#512300", "tertiary-container": "#4c2100",
+                    "tertiary": "#ffb689", "surface-container-high": "#172c3c",
+                    "surface": "#001524", "primary-fixed-dim": "#a5cbea",
+                    "on-primary": "#05344d", "on-secondary": "#00363e",
+                    "inverse-primary": "#3d627d"
+                },
+                fontFamily: { "headline": ["Space Grotesk"], "body": ["Inter"], "label": ["Inter"] },
+                borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+            },
+        },
+    }
+</script>
+<style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    body { background-color: #001524; color: #d0e5fa; font-family: 'Inter', sans-serif; }
+    .glass-panel { background: rgba(35,55,71,0.4); backdrop-filter: blur(16px); border: 1px solid rgba(66,71,77,0.15); }
+
+    /* ── Automation Flow ─────────────────────── */
+    .fn-wrap  { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
+    .fn-track {
+        display: flex; align-items: flex-start;
+        min-width: 620px; padding: 28px 8px 12px; gap: 0;
+    }
+    .fn-node {
+        display: flex; flex-direction: column; align-items: center;
+        flex-shrink: 0; width: 112px;
+        opacity: 0.2; transition: opacity 0.55s ease;
+        position: relative;
+    }
+    .fn-node.fn-active { opacity: 1; }
+    .fn-icon {
+        width: 64px; height: 64px; border-radius: 16px;
+        background: #00101c; border: 1px solid rgba(165,203,234,0.1);
+        display: flex; align-items: center; justify-content: center;
+        transition: box-shadow 0.6s ease, border-color 0.6s ease;
+        position: relative; overflow: hidden;
+    }
+    #fn-report.fn-active  .fn-icon { box-shadow: 0 0 24px rgba(255,182,137,.5); border-color: rgba(255,182,137,.4); }
+    #fn-rca.fn-active     .fn-icon { box-shadow: 0 0 24px rgba(165,203,234,.5); border-color: rgba(165,203,234,.4); }
+    #fn-fix.fn-active     .fn-icon { box-shadow: 0 0 24px rgba(143,209,222,.5); border-color: rgba(143,209,222,.4); }
+    #fn-migrate.fn-active .fn-icon { box-shadow: 0 0 24px rgba(255,182,137,.5); border-color: rgba(255,182,137,.4); }
+    #fn-confirm.fn-complete .fn-icon {
+        box-shadow: 0 0 32px rgba(165,203,234,.6), 0 0 64px rgba(143,209,222,.2);
+        border-color: rgba(165,203,234,.6);
+    }
+    #fn-confirm.fn-complete .fn-icon::after {
+        content: ''; position: absolute; inset: -6px;
+        border-radius: 20px; border: 1.5px solid rgba(165,203,234,.4);
+        animation: ripple 0.9s ease-out 0.2s 2;
+    }
+    @keyframes ripple { 0% { transform: scale(1); opacity:.8; } 100% { transform: scale(1.5); opacity:0; } }
+
+    .fn-title {
+        font-family: 'Space Grotesk', sans-serif; font-weight: 900;
+        font-size: 10px; text-transform: uppercase; letter-spacing: .1em;
+        margin-top: 10px; text-align: center; line-height: 1.3;
+    }
+    .fn-sub { font-size: 9px; color: rgba(194,199,205,.55); text-align: center; margin-top: 3px; line-height: 1.4; }
+
+    .fn-conn {
+        flex: 1; position: relative; min-width: 32px;
+        height: 64px; display: flex; align-items: center;
+    }
+    .fn-line {
+        position: absolute; left: 0; right: 0; top: 50%;
+        height: 1px; background: rgba(165,203,234,.1);
+    }
+    .fn-dot {
+        position: absolute; top: 50%; left: 0%;
+        width: 10px; height: 10px; border-radius: 50%;
+        background: #a5cbea;
+        box-shadow: 0 0 8px #a5cbea, 0 0 18px rgba(165,203,234,.5);
+        transform: translate(-50%,-50%);
+        opacity: 0; pointer-events: none;
+    }
+    .fn-dot.dot-run { animation: dotgo .62s cubic-bezier(.4,0,.2,1) forwards; }
+    @keyframes dotgo { 0%{left:0%;opacity:0;} 8%{opacity:1;} 92%{opacity:1;} 100%{left:100%;opacity:0;} }
+
+    .fn-blinking .fn-icon { animation: rblink .22s ease-in-out 4; }
+    @keyframes rblink { 0%,100%{background:#00101c;} 50%{background:rgba(165,203,234,.22);} }
+
+    .fn-desc-row { display:flex; min-width:620px; }
+    .fn-desc { flex-shrink:0; width:112px; padding: 0 4px; }
+    .fn-desc-gap { flex:1; }
+</style>
+</head>
+<body class="selection:bg-tertiary/30">
+
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#001524]/80 backdrop-blur-xl border-b border-[#a5cbea]/10 shadow-2xl shadow-[#001524]/50">
+<div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+<a class="font-headline text-xl font-black tracking-tighter text-[#a5cbea] hover:opacity-80 transition-opacity" href="../index.html">Alexander Cortez</a>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#ffb689] border-b-2 border-[#ffb689] pb-1" href="../projects.html">Projects</a>
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../experience.html">Experience</a>
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../about.html">About</a>
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../contact.html">Contact</a>
+<a href="../assets/AlexanderCortez_UiPath_CV.pdf" download class="ml-4 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-xs uppercase rounded-md hover:scale-95 transition-transform">Resume</a>
+</div>
+<button class="md:hidden text-primary"><span class="material-symbols-outlined">menu</span></button>
+</div>
+</nav>
+
+<main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+
+<!-- Back Link -->
+<a href="../projects.html" class="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-sm font-medium mb-12 group">
+<span class="material-symbols-outlined text-base group-hover:-translate-x-1 transition-transform">arrow_back</span>
+All Projects
+</a>
+
+<!-- Hero -->
+<header class="mb-16">
+<div class="flex items-center gap-4 mb-5">
+<div class="h-[2px] w-12 bg-tertiary"></div>
+<span class="font-label text-xs uppercase tracking-[0.4em] text-tertiary font-black">RPA &amp; Bots · Warner Bros. Discovery</span>
+</div>
+<h1 class="font-headline text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] mb-6">
+WBD Bot Portfolio<br/><span class="text-primary italic">Stabilization</span>
+</h1>
+<div class="flex flex-wrap gap-6 mt-8 text-sm text-on-surface-variant">
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-tertiary text-base">calendar_month</span><span>Jun 2025 → Ongoing</span></div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-base">person</span><span>RPA Support Engineer</span></div>
+<div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-base">business</span><span>Warner Bros. Discovery</span></div>
+</div>
+</header>
+
+<!-- Row 1: Description + Stack -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-8">
+
+<!-- Description Card -->
+<div class="lg:col-span-8 glass-panel rounded-2xl p-8 md:p-10">
+<p class="text-on-surface-variant text-base leading-relaxed mb-8">Inherited a portfolio of 40+ UiPath bots at Warner Bros. Discovery with recurring failures, hardcoded credentials, and zero documentation. Performed systematic root cause analysis, migrated credentials to Orchestrator Assets, refactored brittle selectors, and established a same-day triage protocol — stabilizing the entire portfolio and reducing production disruptions to near zero.</p>
+<div class="pt-6 border-t border-outline-variant/10 flex items-center gap-3">
+  <span class="material-symbols-outlined text-on-surface-variant text-sm">person</span>
+  <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">My Role:</span>
+  <span class="text-[11px] text-on-surface-variant">RPA Support Engineer — sole owner of bot stabilization, triage, and documentation</span>
+</div>
+</div>
+
+<!-- Stack -->
+<div class="lg:col-span-4 glass-panel rounded-2xl p-8">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-secondary text-xl">layers</span>
+<h2 class="font-headline font-black text-xs uppercase tracking-widest text-secondary">Tech Stack</h2>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-xl border border-primary/10">
+<img src="../assets/icon-uipath.png" alt="UiPath" style="width:32px;height:32px;object-fit:contain;flex-shrink:0"/>
+<div><div class="font-headline font-black text-xs text-primary">UiPath Studio</div><div class="text-[10px] text-on-surface-variant">Bot development &amp; refactoring</div></div>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-xl border border-secondary/10">
+<img src="../assets/icon-uipath.png" alt="UiPath Orchestrator" style="width:32px;height:32px;object-fit:contain;flex-shrink:0"/>
+<div><div class="font-headline font-black text-xs text-secondary">UiPath Orchestrator</div><div class="text-[10px] text-on-surface-variant">Asset migration &amp; monitoring</div></div>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-xl border border-tertiary/10">
+<span class="material-symbols-outlined text-tertiary text-lg">search_insights</span>
+<div><div class="font-headline font-black text-xs text-tertiary">Root Cause Analysis</div><div class="text-[10px] text-on-surface-variant">Log inspection &amp; failure triage</div></div>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-lowest rounded-xl border border-on-surface-variant/10">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">description</span>
+<div><div class="font-headline font-black text-xs text-on-surface-variant">Documentation</div><div class="text-[10px] text-on-surface-variant">Runbooks &amp; asset registry</div></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Automation Flow -->
+<div class="glass-panel rounded-2xl p-8 md:p-10 mb-8">
+<div class="flex items-center gap-2 mb-8">
+<span class="material-symbols-outlined text-primary text-xl">account_tree</span>
+<h2 class="font-headline font-black text-xs uppercase tracking-widest text-primary">Stabilization Flow</h2>
+</div>
+<div class="fn-wrap">
+<div class="fn-track" id="flow-track">
+
+<!-- Node 1: Issue Report -->
+<div class="fn-node" id="fn-report">
+<div class="fn-icon"><span class="material-symbols-outlined text-[#ffb689] text-2xl">bug_report</span></div>
+<div class="fn-title" style="color:#ffb689">Issue<br/>Report</div>
+<div class="fn-sub">Bot failure<br/>detected</div>
+</div>
+<div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="d1"></div></div>
+
+<!-- Node 2: Root Cause Analysis -->
+<div class="fn-node" id="fn-rca">
+<div class="fn-icon"><span class="material-symbols-outlined text-[#a5cbea] text-2xl">search_insights</span></div>
+<div class="fn-title" style="color:#a5cbea">Root Cause<br/>Analysis</div>
+<div class="fn-sub">Log review<br/>&amp; diagnosis</div>
+</div>
+<div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="d2"></div></div>
+
+<!-- Node 3: Fix Development -->
+<div class="fn-node" id="fn-fix">
+<div class="fn-icon"><span class="material-symbols-outlined text-[#8fd1de] text-2xl">build</span></div>
+<div class="fn-title" style="color:#8fd1de">Fix<br/>Development</div>
+<div class="fn-sub">Refactor<br/>&amp; test</div>
+</div>
+<div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="d3"></div></div>
+
+<!-- Node 4: Asset Migration -->
+<div class="fn-node" id="fn-migrate">
+<div class="fn-icon"><span class="material-symbols-outlined text-[#ffb689] text-2xl">hub</span></div>
+<div class="fn-title" style="color:#ffb689">Asset<br/>Migration</div>
+<div class="fn-sub">Orchestrator<br/>config update</div>
+</div>
+<div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="d4"></div></div>
+
+<!-- Node 5: Confirmed -->
+<div class="fn-node" id="fn-confirm">
+<div class="fn-icon"><span class="material-symbols-outlined text-[#a5cbea] text-2xl">verified</span></div>
+<div class="fn-title" style="color:#a5cbea">Confirmed<br/>Stable</div>
+<div class="fn-sub">Monitoring<br/>active</div>
+</div>
+
+</div>
+</div>
+<!-- Description row -->
+<div class="fn-wrap mt-2">
+<div class="fn-desc-row text-[9px] text-on-surface-variant/60 leading-tight">
+<div class="fn-desc">Alert or manual report from stakeholder or Orchestrator</div>
+<div class="fn-desc-gap"></div>
+<div class="fn-desc">Inspect logs, identify selector / credential / logic failure</div>
+<div class="fn-desc-gap"></div>
+<div class="fn-desc">Patch code, test in non-prod environment</div>
+<div class="fn-desc-gap"></div>
+<div class="fn-desc">Move hardcoded values to Orchestrator Assets</div>
+<div class="fn-desc-gap"></div>
+<div class="fn-desc">Deploy, verify run, document in runbook</div>
+</div>
+</div>
+</div>
+
+<!-- Row 2: Execution Log + Metrics -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+<!-- Problem / Solution / Result -->
+<div class="lg:col-span-8 glass-panel rounded-2xl p-8 md:p-10">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-error text-xl">report_problem</span>
+<h2 class="font-headline font-black text-xs uppercase tracking-widest text-error">Problem</h2>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">Inherited a portfolio of 40+ UiPath bots with recurring failures, hardcoded credentials, broken Orchestrator assets, and no documentation — causing daily disruptions to business-critical workflows.</p>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary text-xl">build</span>
+<h2 class="font-headline font-black text-xs uppercase tracking-widest text-secondary">Solution</h2>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">Systematically audited each bot, performed root cause analysis on failures, migrated hardcoded values to Orchestrator Assets, refactored brittle selectors, and established a triage protocol for same-day resolution of production issues.</p>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-xl">emoji_events</span>
+<h2 class="font-headline font-black text-xs uppercase tracking-widest text-primary">Result</h2>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">40+ bots stabilized and actively monitored. Same-day resolution achieved for critical failures. Zero hardcoded credentials remaining in production. Established a sustainable support model adopted by the team.</p>
+</div>
+</div>
+</div>
+
+<!-- Metrics -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="glass-panel rounded-2xl p-6 flex-1 flex flex-col justify-center items-center text-center">
+<div class="text-4xl font-headline font-black text-tertiary mb-1">40+</div>
+<div class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Bots Stabilized</div>
+</div>
+<div class="glass-panel rounded-2xl p-6 flex-1 flex flex-col justify-center items-center text-center">
+<div class="text-4xl font-headline font-black text-primary mb-1">&lt;1d</div>
+<div class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Avg Resolution Time</div>
+</div>
+<div class="glass-panel rounded-2xl p-6 flex-1 flex flex-col justify-center items-center text-center">
+<div class="text-4xl font-headline font-black text-secondary mb-1">0</div>
+<div class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Hardcoded Credentials Left</div>
+</div>
+</div>
+</div>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#00101c] w-full py-16 border-t border-[#a5cbea]/10 mt-16">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 gap-10 max-w-7xl mx-auto">
+<div class="font-headline font-black text-2xl tracking-tighter text-[#a5cbea]">Alexander Cortez</div>
+<div class="font-body text-xs tracking-[0.2em] font-bold uppercase text-[#a5cbea]/50 flex flex-wrap justify-center gap-10">
+<a class="hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="#">LinkedIn</a>
+<a class="hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="#">GitHub</a>
+<a class="hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="#">Email</a>
+</div>
+<div class="font-body text-[10px] tracking-widest font-medium uppercase text-[#a5cbea]/30 text-center">© 2025 Alexander Cortez | RPA &amp; AI Engineer</div>
+</div>
+</footer>
+
+<!-- Background Decoration -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden">
+<div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 blur-[150px] rounded-full"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-tertiary/10 blur-[150px] rounded-full"></div>
+<div class="absolute top-[30%] right-[10%] w-[20%] h-[20%] bg-secondary/5 blur-[100px] rounded-full"></div>
+</div>
+
+<!-- Flow Animation Script -->
+<script>
+(function(){
+    const nodes = ['fn-report','fn-rca','fn-fix','fn-migrate','fn-confirm'];
+    const dots  = ['d1','d2','d3','d4'];
+    const CYCLE = 7200;
+
+    function activate(id){ document.getElementById(id)?.classList.add('fn-active','fn-blinking'); }
+    function complete(id){ const el=document.getElementById(id); el?.classList.remove('fn-blinking'); el?.classList.add('fn-complete'); }
+    function blink(id){ document.getElementById(id)?.classList.add('fn-blinking'); }
+    function dot(id){ const el=document.getElementById(id); if(!el)return; el.classList.remove('dot-run'); void el.offsetWidth; el.classList.add('dot-run'); }
+
+    function runCycle(){
+        nodes.forEach(id=>{ const el=document.getElementById(id); el?.classList.remove('fn-active','fn-blinking','fn-complete'); });
+        dots.forEach(id=>{ const el=document.getElementById(id); el?.classList.remove('dot-run'); });
+
+        setTimeout(()=>activate('fn-report'),200);
+        setTimeout(()=>{ dot('d1'); },900);
+        setTimeout(()=>{ complete('fn-report'); activate('fn-rca'); },1400);
+        setTimeout(()=>{ dot('d2'); },2100);
+        setTimeout(()=>{ complete('fn-rca'); activate('fn-fix'); },2600);
+        setTimeout(()=>{ dot('d3'); },3300);
+        setTimeout(()=>{ complete('fn-fix'); activate('fn-migrate'); },3800);
+        setTimeout(()=>{ dot('d4'); },4500);
+        setTimeout(()=>{ complete('fn-migrate'); activate('fn-confirm'); complete('fn-confirm'); },5000);
+        setTimeout(runCycle, CYCLE);
+    }
+    runCycle();
+})();
+</script>
+
+
+</body></html>

@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="preconnect" href="https://cdn.tailwindcss.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
       tailwind.config = {
@@ -92,6 +92,50 @@
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         background-color: rgba(23, 44, 60, 0.8);
       }
+
+      /* Filter Buttons */
+      .filter-btn {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 900;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        padding: 8px 18px;
+        border-radius: 999px;
+        border: 1px solid rgba(165,203,234,0.15);
+        color: rgba(165,203,234,0.55);
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        white-space: nowrap;
+      }
+      .filter-btn:hover {
+        border-color: rgba(165,203,234,0.4);
+        color: #a5cbea;
+        background: rgba(165,203,234,0.06);
+      }
+      .filter-btn.active {
+        background: rgba(165,203,234,0.12);
+        border-color: rgba(165,203,234,0.5);
+        color: #a5cbea;
+      }
+      .filter-btn[data-filter="rpa"].active    { background:rgba(255,182,137,.12); border-color:rgba(255,182,137,.4); color:#ffb689; }
+      .filter-btn[data-filter="sap"].active    { background:rgba(143,209,222,.12); border-color:rgba(143,209,222,.4); color:#8fd1de; }
+      .filter-btn[data-filter="power"].active  { background:rgba(143,209,222,.12); border-color:rgba(143,209,222,.4); color:#8fd1de; }
+      .filter-btn[data-filter="ai"].active     { background:rgba(165,203,234,.12); border-color:rgba(165,203,234,.4); color:#a5cbea; }
+      .filter-btn[data-filter="training"].active { background:rgba(255,182,137,.12); border-color:rgba(255,182,137,.4); color:#ffb689; }
+
+      /* Project card hide/show */
+      .project-card {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+      .project-card.hidden-card {
+        display: none;
+      }
+
+      /* Proposed badge pulse */
+      @keyframes proposedPulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+      .proposed-dot { animation: proposedPulse 2.5s ease-in-out infinite; }
     </style>
 </head>
 <body class="bg-background text-on-surface font-body selection:bg-tertiary selection:text-on-tertiary">
@@ -102,237 +146,288 @@
 <div class="hidden md:flex gap-8 items-center">
 <a class="font-headline font-bold tracking-tight text-sm uppercase text-[#ffb689] border-b-2 border-[#ffb689] pb-1" href="projects.html">Projects</a>
 <a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="experience.html">Experience</a>
-<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="#">About</a>
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="about.html">About</a>
 <a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="contact.html">Contact</a>
 </div>
-<button class="bg-primary-container text-primary font-headline font-bold tracking-tight text-xs uppercase px-5 py-2.5 rounded-lg hover:bg-on-primary-fixed-variant transition-all duration-300 active:scale-95">Resume</button>
+<a href="assets/AlexanderCortez_UiPath_CV.pdf" download class="bg-primary-container text-primary font-headline font-bold tracking-tight text-xs uppercase px-5 py-2.5 rounded-lg hover:bg-on-primary-fixed-variant transition-all duration-300 active:scale-95">Resume</a>
 </div>
 </nav>
+
 <main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+
 <!-- Hero Header -->
-<header class="mb-20">
+<header class="mb-16">
 <div class="flex items-center gap-4 mb-6">
 <div class="h-[2px] w-14 bg-tertiary"></div>
 <span class="font-label text-xs uppercase tracking-[0.4em] text-tertiary font-black">Automation & Low-Code</span>
 </div>
 <h1 class="font-headline text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8">
-            MY <span class="text-primary italic">PROJECTS</span>
+MY <span class="text-primary italic">PROJECTS</span>
 </h1>
 <p class="max-w-2xl text-on-surface-variant font-light text-xl leading-relaxed">
-            From RPA bots orchestrating enterprise systems to Power Apps redefining how teams interact with data — automation at every layer.
-        </p>
+From RPA bots orchestrating enterprise systems to AI agents triaging inboxes — automation at every layer, across three companies.
+</p>
 </header>
 
-<!-- ── RPA & Automation ─────────────────────────────── -->
-<div class="mb-10">
-<div class="flex items-center gap-4 mb-3">
-<div class="h-[2px] w-10 bg-tertiary"></div>
-<span class="font-label text-xs uppercase tracking-[0.4em] text-tertiary font-black">Category</span>
-</div>
-<div class="flex items-end gap-6">
-<h2 class="font-headline text-4xl md:text-6xl font-black tracking-tighter text-on-surface">RPA <span class="text-tertiary italic">&amp; Automation</span></h2>
-<div class="flex-1 h-[1px] bg-tertiary/10 mb-3"></div>
-</div>
-</div>
-<!-- Gallery Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-20">
-<!-- Project 1: SAP Data Extraction -->
-<div class="lg:col-span-7 glass-card rounded-2xl p-8 md:p-10 flex flex-col justify-between hover-lift group">
-<div class="mb-10">
-<div class="flex justify-between items-start mb-10">
-<div class="flex gap-4">
-<div class="p-4 bg-surface-container-lowest rounded-xl border border-primary/20">
-<span class="material-symbols-outlined text-primary text-3xl">settings_applications</span>
-</div>
-<div class="p-4 bg-surface-container-lowest rounded-xl border border-secondary/20">
-<span class="material-symbols-outlined text-secondary text-3xl">cloud</span>
-</div>
-</div>
-</div>
-<h2 class="font-headline text-3xl md:text-4xl font-bold mb-5 group-hover:text-primary transition-colors">SAP Data Extraction Automation</h2>
-<p class="text-on-surface-variant text-base mb-8 leading-relaxed max-w-xl">
-                    Specialized bot orchestrating legacy interfaces. It executes critical transactions, extracts financial datasets, and automates secure storage in AWS buckets.
-                </p>
-<div class="flex flex-wrap gap-2 mb-10">
-<span class="px-3 py-1.5 bg-primary/10 text-primary text-[11px] font-black tracking-wider uppercase rounded-md border border-primary/20">UiPath</span>
-<span class="px-3 py-1.5 bg-secondary/10 text-secondary text-[11px] font-black tracking-wider uppercase rounded-md border border-secondary/20">SAP ERP</span>
-<span class="px-3 py-1.5 bg-tertiary/10 text-tertiary text-[11px] font-black tracking-wider uppercase rounded-md border border-tertiary/20">AWS S3</span>
-<span class="px-3 py-1.5 bg-on-surface-variant/10 text-on-surface-variant text-[11px] font-black tracking-wider uppercase rounded-md border border-on-surface-variant/20">Python</span>
-</div>
-</div>
-<a href="projects/sap-automation.html" class="inline-block w-full md:w-fit bg-tertiary-container text-tertiary px-8 py-3.5 rounded-xl font-headline font-bold text-sm tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95 uppercase text-center">
-                View Details
-            </a>
-</div>
-<!-- Project 2: API Ticket Generation -->
-<div class="lg:col-span-5 glass-card rounded-2xl p-8 md:p-10 flex flex-col justify-between hover-lift group">
-<div class="mb-10">
-<div class="mb-10 p-6 bg-surface-container-lowest rounded-xl border border-outline-variant/10">
-<div class="flex items-center justify-between mb-4">
-<span class="text-[11px] font-mono font-bold text-tertiary">POST /api/v1/tickets</span>
-<div class="flex gap-1.5">
-<div class="w-2.5 h-2.5 rounded-full bg-error/40"></div>
-<div class="w-2.5 h-2.5 rounded-full bg-tertiary/40"></div>
-<div class="w-2.5 h-2.5 rounded-full bg-secondary/40"></div>
-</div>
-</div>
-<pre class="font-mono text-[11px] text-primary/80 leading-tight">{
-  "request_id": "AA-99201",
-  "priority": "CRITICAL",
-  "source": "Neural_Bot_V2"
-}</pre>
-</div>
-<h2 class="font-headline text-3xl font-bold mb-5 group-hover:text-primary transition-colors">API Ticket Generation</h2>
-<p class="text-on-surface-variant text-base mb-8 leading-relaxed">
-                    Headless integration that eliminates human latency in corporate technical support using advanced AA orchestrators.
-                </p>
-<div class="flex flex-wrap gap-2 mb-10">
-<span class="px-3 py-1.5 bg-primary/10 text-primary text-[11px] font-black tracking-wider uppercase rounded-md border border-primary/20">Automation Anywhere</span>
-<span class="px-3 py-1.5 bg-secondary/10 text-secondary text-[11px] font-black tracking-wider uppercase rounded-md border border-secondary/20">REST API</span>
-<span class="px-3 py-1.5 bg-on-surface-variant/10 text-on-surface-variant text-[11px] font-black tracking-wider uppercase rounded-md border border-on-surface-variant/20">JSON</span>
-</div>
-</div>
-<button class="w-full bg-surface-container-highest text-on-surface font-headline font-bold py-3.5 rounded-xl border border-outline-variant/30 hover:bg-primary/10 hover:text-primary transition-all tracking-widest text-sm uppercase">
-                View Details
-            </button>
-</div>
-<!-- Project 3: Real-Time Ticket Monitoring -->
-<div class="lg:col-span-12 glass-card rounded-2xl p-8 md:p-12 flex flex-col lg:flex-row gap-12 hover-lift group">
-<div class="lg:w-1/2">
-<h2 class="font-headline text-4xl md:text-5xl font-black mb-6 group-hover:text-primary transition-colors">Real-Time Ticket Monitoring</h2>
-<p class="text-on-surface-variant text-lg mb-10 leading-relaxed">
-                    A comprehensive monitoring solution providing instant visibility into helpdesk operations, ensuring zero downtime and rapid response.
-                </p>
-<div class="flex flex-wrap gap-2 mb-10">
-<span class="px-3 py-1.5 bg-primary/10 text-primary text-[11px] font-black tracking-wider uppercase rounded-md border border-primary/20">Power Automate</span>
-<span class="px-3 py-1.5 bg-secondary/10 text-secondary text-[11px] font-black tracking-wider uppercase rounded-md border border-secondary/20">Jira</span>
-<span class="px-3 py-1.5 bg-tertiary/10 text-tertiary text-[11px] font-black tracking-wider uppercase rounded-md border border-tertiary/20">SharePoint</span>
-<span class="px-3 py-1.5 bg-on-surface-variant/10 text-on-surface-variant text-[11px] font-black tracking-wider uppercase rounded-md border border-on-surface-variant/20">Office 365</span>
-</div>
-<button class="w-full md:w-fit py-4 px-10 bg-primary-container text-primary font-headline font-bold uppercase tracking-[0.2em] rounded-xl hover:brightness-125 transition-all text-xs">
-                    View Details
-                </button>
-</div>
-<div class="lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-<div class="bg-surface-container-lowest p-8 rounded-2xl border-t-4 border-secondary flex flex-col justify-center items-center text-center shadow-lg">
-<div class="text-tertiary font-headline font-black text-3xl mb-2">0.5s</div>
-<div class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Network Latency</div>
-</div>
-<div class="bg-surface-container-lowest p-8 rounded-2xl border-t-4 border-secondary flex flex-col justify-center items-center text-center shadow-lg">
-<div class="text-tertiary font-headline font-black text-3xl mb-2">100%</div>
-<div class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">SLA Uptime</div>
-</div>
-<div class="bg-surface-container-lowest p-8 rounded-2xl border-t-4 border-secondary flex flex-col justify-center items-center text-center shadow-lg">
-<div class="text-tertiary font-headline font-black text-3xl mb-2">+400</div>
-<div class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">Daily Tickets</div>
-</div>
-<div class="sm:col-span-2 md:col-span-3 bg-surface-container-low/50 p-6 rounded-2xl border border-outline-variant/10 flex items-center gap-6">
-<div class="flex -space-x-3">
-<div class="w-12 h-12 rounded-full bg-primary/20 border-2 border-background flex items-center justify-center">
-<span class="material-symbols-outlined text-primary text-xl">notifications_active</span>
-</div>
-<div class="w-12 h-12 rounded-full bg-secondary/20 border-2 border-background flex items-center justify-center">
-<span class="material-symbols-outlined text-secondary text-xl">sync</span>
-</div>
-</div>
-<div class="text-sm font-medium text-on-surface/80">Automated notification and synchronization workflow active.</div>
-</div>
-</div>
+<!-- Filter Buttons -->
+<div class="mb-14">
+<div class="flex flex-wrap gap-2.5" id="filter-bar">
+<button class="filter-btn active" data-filter="all">All</button>
+<button class="filter-btn" data-filter="rpa">RPA &amp; Bots</button>
+<button class="filter-btn" data-filter="sap">SAP</button>
+<button class="filter-btn" data-filter="power">Power Platform</button>
+<button class="filter-btn" data-filter="ai">AI &amp; Agentic</button>
+<button class="filter-btn" data-filter="training">Training</button>
 </div>
 </div>
 
-<!-- ── Power Apps & Low-Code ───────────────────────── -->
-<div class="mb-10">
-<div class="flex items-center gap-4 mb-3">
-<div class="h-[2px] w-10 bg-secondary"></div>
-<span class="font-label text-xs uppercase tracking-[0.4em] text-secondary font-black">Category</span>
-</div>
-<div class="flex items-end gap-6">
-<h2 class="font-headline text-4xl md:text-6xl font-black tracking-tighter text-on-surface">Power Apps <span class="text-secondary italic">&amp; Low-Code</span></h2>
-<div class="flex-1 h-[1px] bg-secondary/10 mb-3"></div>
-</div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- ─────────────────────────────────────────────────────────
+     PROJECT GRID
+────────────────────────────────────────────────────────── -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8" id="project-grid">
 
-<!-- Power App 1: Jira Closed Tickets Monitor -->
-<div class="lg:col-span-5 glass-card rounded-2xl p-8 md:p-10 flex flex-col justify-between hover-lift group">
-<div class="mb-10">
-<div class="mb-10 p-6 bg-surface-container-lowest rounded-xl border border-secondary/10">
-<div class="flex items-center justify-between mb-5">
-<span class="text-[11px] font-mono font-bold text-secondary">JIRA · CLOSED TICKETS</span>
-<div class="flex gap-1.5">
-<div class="w-2 h-2 rounded-full bg-secondary/40"></div>
-<div class="w-2 h-2 rounded-full bg-secondary/70"></div>
-<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<!-- 1. SAP Data Extraction Automation -->
+<div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between hover-lift group" data-categories="rpa sap">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-2xl">settings_applications</span>
+</div>
+<div class="px-2.5 py-1 bg-secondary/10 border border-secondary/20 rounded-md text-[10px] font-black uppercase tracking-wider text-secondary">SAP · RPA</div>
+</div>
+<h2 class="font-headline text-2xl font-bold mb-3 group-hover:text-primary transition-colors">SAP Data Extraction Automation</h2>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Bot orchestrating legacy SAP interfaces, executing financial transactions and storing extracted datasets securely in AWS S3 buckets.</p>
+<div class="flex flex-wrap gap-1.5 mb-6">
+<span class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-wider uppercase rounded-md border border-primary/20">UiPath</span>
+<span class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-black tracking-wider uppercase rounded-md border border-secondary/20">SAP ERP</span>
+<span class="px-2.5 py-1 bg-tertiary/10 text-tertiary text-[10px] font-black tracking-wider uppercase rounded-md border border-tertiary/20">AWS S3</span>
+<span class="px-2.5 py-1 bg-on-surface-variant/10 text-on-surface-variant text-[10px] font-black tracking-wider uppercase rounded-md border border-on-surface-variant/20">Python</span>
 </div>
 </div>
-<div class="space-y-2">
-<div class="flex items-center justify-between py-2 border-b border-outline-variant/10">
-<span class="text-[11px] font-mono text-on-surface-variant">STATUS_FILTER</span>
-<span class="text-[11px] font-mono text-secondary font-bold">= "Closed"</span>
-</div>
-<div class="flex items-center justify-between py-2 border-b border-outline-variant/10">
-<span class="text-[11px] font-mono text-on-surface-variant">ASSIGNEE</span>
-<span class="text-[11px] font-mono text-tertiary font-bold">ALL_TEAMS</span>
-</div>
-<div class="flex items-center justify-between py-2">
-<span class="text-[11px] font-mono text-on-surface-variant">REFRESH</span>
-<span class="text-[11px] font-mono text-primary font-bold">AUTO · 5min</span>
-</div>
-</div>
-</div>
-<h2 class="font-headline text-3xl font-bold mb-5 group-hover:text-secondary transition-colors">Jira Closed Tickets Monitor</h2>
-<p class="text-on-surface-variant text-base mb-8 leading-relaxed">
-Power App that gives teams real-time visibility into closed Jira tickets. Filters by assignee, date range, and project — replacing manual report exports entirely.
-</p>
-<div class="flex flex-wrap gap-2 mb-10">
-<span class="px-3 py-1.5 bg-secondary/10 text-secondary text-[11px] font-black tracking-wider uppercase rounded-md border border-secondary/20">Power Apps</span>
-<span class="px-3 py-1.5 bg-primary/10 text-primary text-[11px] font-black tracking-wider uppercase rounded-md border border-primary/20">Jira API</span>
-<span class="px-3 py-1.5 bg-tertiary/10 text-tertiary text-[11px] font-black tracking-wider uppercase rounded-md border border-tertiary/20">Power Automate</span>
-</div>
-</div>
-<button class="w-full bg-surface-container-highest text-on-surface font-headline font-bold py-3.5 rounded-xl border border-outline-variant/30 hover:bg-secondary/10 hover:text-secondary transition-all tracking-widest text-sm uppercase">
-View Details
-</button>
+<a href="projects/sap-automation.html" class="inline-block w-full bg-tertiary-container text-tertiary px-6 py-3 rounded-xl font-headline font-bold text-xs tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95 uppercase text-center">View Details</a>
 </div>
 
-<!-- Power App 2: WBD Project Repository -->
-<div class="lg:col-span-7 glass-card rounded-2xl p-8 md:p-10 flex flex-col justify-between hover-lift group relative overflow-hidden">
-<!-- "In Progress" badge -->
-<div class="absolute top-6 right-6 flex items-center gap-2 px-3 py-1.5 bg-tertiary/10 border border-tertiary/30 rounded-full">
-<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
-<span class="text-[10px] font-black uppercase tracking-widest text-tertiary">In Progress</span>
+<!-- 2. Web Data Harvest -->
+<div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between hover-lift group" data-categories="rpa">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-tertiary/20">
+<span class="material-symbols-outlined text-tertiary text-2xl">travel_explore</span>
 </div>
-<div class="mb-10">
-<div class="flex gap-4 mb-10">
-<div class="p-4 bg-surface-container-lowest rounded-xl border border-secondary/20">
-<span class="material-symbols-outlined text-secondary text-3xl">folder_open</span>
+<div class="px-2.5 py-1 bg-tertiary/10 border border-tertiary/20 rounded-md text-[10px] font-black uppercase tracking-wider text-tertiary">RPA · Web Scraping</div>
 </div>
-<div class="p-4 bg-surface-container-lowest rounded-xl border border-primary/20">
-<span class="material-symbols-outlined text-primary text-3xl">deployed_code</span>
-</div>
-<div class="p-4 bg-surface-container-lowest rounded-xl border border-tertiary/20">
-<span class="material-symbols-outlined text-tertiary text-3xl">share</span>
+<h2 class="font-headline text-2xl font-bold mb-3 group-hover:text-primary transition-colors">Web Data Harvest & Excel Reporting</h2>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Automation Anywhere bot scraping web tables and generating formatted Excel reports, cutting manual reporting time by 85%.</p>
+<div class="flex flex-wrap gap-1.5 mb-6">
+<span class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-wider uppercase rounded-md border border-primary/20">Automation Anywhere</span>
+<span class="px-2.5 py-1 bg-tertiary/10 text-tertiary text-[10px] font-black tracking-wider uppercase rounded-md border border-tertiary/20">Excel</span>
+<span class="px-2.5 py-1 bg-on-surface-variant/10 text-on-surface-variant text-[10px] font-black tracking-wider uppercase rounded-md border border-on-surface-variant/20">Shared Drive</span>
 </div>
 </div>
-<h2 class="font-headline text-3xl md:text-4xl font-bold mb-5 group-hover:text-secondary transition-colors">WBD Project Repository</h2>
-<p class="text-on-surface-variant text-base mb-8 leading-relaxed max-w-xl">
-Internal Power App serving as a centralized repository for all automation and development projects at Warner Bros. Discovery. Teams can browse, filter, and document active initiatives in one place.
-</p>
-<div class="flex flex-wrap gap-2 mb-10">
-<span class="px-3 py-1.5 bg-secondary/10 text-secondary text-[11px] font-black tracking-wider uppercase rounded-md border border-secondary/20">Power Apps</span>
-<span class="px-3 py-1.5 bg-primary/10 text-primary text-[11px] font-black tracking-wider uppercase rounded-md border border-primary/20">SharePoint</span>
-<span class="px-3 py-1.5 bg-tertiary/10 text-tertiary text-[11px] font-black tracking-wider uppercase rounded-md border border-tertiary/20">Power Automate</span>
-<span class="px-3 py-1.5 bg-on-surface-variant/10 text-on-surface-variant text-[11px] font-black tracking-wider uppercase rounded-md border border-on-surface-variant/20">Dataverse</span>
-</div>
-</div>
-<button class="w-full md:w-fit bg-surface-container-highest text-on-surface font-headline font-bold py-3.5 px-8 rounded-xl border border-outline-variant/30 hover:bg-secondary/10 hover:text-secondary transition-all tracking-widest text-sm uppercase">
-View Details
-</button>
+<a href="projects/web-data-harvest.html" class="inline-block w-full bg-tertiary-container text-tertiary px-6 py-3 rounded-xl font-headline font-bold text-xs tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95 uppercase text-center">View Details</a>
 </div>
 
+<!-- 3. API Ticket Generation -->
+<div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between hover-lift group" data-categories="rpa">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-primary/20">
+<span class="material-symbols-outlined text-primary text-2xl">api</span>
 </div>
+<div class="px-2.5 py-1 bg-primary/10 border border-primary/20 rounded-md text-[10px] font-black uppercase tracking-wider text-primary">RPA · API</div>
+</div>
+<h2 class="font-headline text-2xl font-bold mb-3 group-hover:text-primary transition-colors">API Ticket Creation Automation</h2>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Headless AA A360 integration creating 1000+ support tickets via REST API, eliminating human latency in technical support using webhook-driven decision trees.</p>
+<div class="flex flex-wrap gap-1.5 mb-6">
+<span class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-wider uppercase rounded-md border border-primary/20">AA A360</span>
+<span class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-black tracking-wider uppercase rounded-md border border-secondary/20">REST API</span>
+<span class="px-2.5 py-1 bg-tertiary/10 text-tertiary text-[10px] font-black tracking-wider uppercase rounded-md border border-tertiary/20">Catalytic</span>
+</div>
+</div>
+<a href="projects/ticket-creation-api.html" class="inline-block w-full bg-tertiary-container text-tertiary px-6 py-3 rounded-xl font-headline font-bold text-xs tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95 uppercase text-center">View Details</a>
+</div>
+
+<!-- 4. SAP Plant Order Loading -->
+<div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between hover-lift group" data-categories="rpa sap">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-2xl">inventory_2</span>
+</div>
+<div class="px-2.5 py-1 bg-secondary/10 border border-secondary/20 rounded-md text-[10px] font-black uppercase tracking-wider text-secondary">SAP · RPA</div>
+</div>
+<h2 class="font-headline text-2xl font-bold mb-3 group-hover:text-primary transition-colors">SAP Plant Order Loading</h2>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">A360 bot reducing SAP plant order processing from 1 hour to 8 minutes, executing 15 loads/day 24/7 across .NET portal and SAP ERP.</p>
+<div class="flex flex-wrap gap-1.5 mb-6">
+<span class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-wider uppercase rounded-md border border-primary/20">AA A360</span>
+<span class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-black tracking-wider uppercase rounded-md border border-secondary/20">SAP ERP</span>
+<span class="px-2.5 py-1 bg-on-surface-variant/10 text-on-surface-variant text-[10px] font-black tracking-wider uppercase rounded-md border border-on-surface-variant/20">.NET Portal</span>
+</div>
+</div>
+<a href="projects/sap-order-loading.html" class="inline-block w-full bg-tertiary-container text-tertiary px-6 py-3 rounded-xl font-headline font-bold text-xs tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95 uppercase text-center">View Details</a>
+</div>
+
+<!-- 5. User Profile Provisioning -->
+<div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between hover-lift group" data-categories="rpa power">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-primary/20">
+<span class="material-symbols-outlined text-primary text-2xl">manage_accounts</span>
+</div>
+<div class="px-2.5 py-1 bg-primary/10 border border-primary/20 rounded-md text-[10px] font-black uppercase tracking-wider text-primary">RPA · SharePoint</div>
+</div>
+<h2 class="font-headline text-2xl font-bold mb-3 group-hover:text-primary transition-colors">Dynamic User Profile Provisioning</h2>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">UiPath bot creating 100+ user profiles via dynamic UI, cutting provisioning time from 1 day to 5 minutes with SharePoint-driven data extraction.</p>
+<div class="flex flex-wrap gap-1.5 mb-6">
+<span class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-wider uppercase rounded-md border border-primary/20">UiPath</span>
+<span class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-black tracking-wider uppercase rounded-md border border-secondary/20">SharePoint</span>
+<span class="px-2.5 py-1 bg-on-surface-variant/10 text-on-surface-variant text-[10px] font-black tracking-wider uppercase rounded-md border border-on-surface-variant/20">Outlook</span>
+</div>
+</div>
+<a href="projects/user-profile-provisioning.html" class="inline-block w-full bg-tertiary-container text-tertiary px-6 py-3 rounded-xl font-headline font-bold text-xs tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95 uppercase text-center">View Details</a>
+</div>
+
+<!-- 6. HR Pre-Onboarding -->
+<div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between hover-lift group" data-categories="rpa power">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-tertiary/20">
+<span class="material-symbols-outlined text-tertiary text-2xl">badge</span>
+</div>
+<div class="px-2.5 py-1 bg-tertiary/10 border border-tertiary/20 rounded-md text-[10px] font-black uppercase tracking-wider text-tertiary">Power Automate · HR</div>
+</div>
+<h2 class="font-headline text-2xl font-bold mb-3 group-hover:text-primary transition-colors">HR Pre-Onboarding Automation</h2>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Power Automate flow reducing onboarding cycle from 7 to 4 days and achieving 100% document capture via SharePoint and .NET portal integration.</p>
+<div class="flex flex-wrap gap-1.5 mb-6">
+<span class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-black tracking-wider uppercase rounded-md border border-secondary/20">Power Automate</span>
+<span class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-wider uppercase rounded-md border border-primary/20">SharePoint</span>
+<span class="px-2.5 py-1 bg-on-surface-variant/10 text-on-surface-variant text-[10px] font-black tracking-wider uppercase rounded-md border border-on-surface-variant/20">.NET</span>
+</div>
+</div>
+<a href="projects/hr-preonboarding.html" class="inline-block w-full bg-tertiary-container text-tertiary px-6 py-3 rounded-xl font-headline font-bold text-xs tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95 uppercase text-center">View Details</a>
+</div>
+
+<!-- 7. Team Hours Tracking -->
+<div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between hover-lift group" data-categories="power">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-2xl">bar_chart</span>
+</div>
+<div class="px-2.5 py-1 bg-secondary/10 border border-secondary/20 rounded-md text-[10px] font-black uppercase tracking-wider text-secondary">Power Platform</div>
+</div>
+<h2 class="font-headline text-2xl font-bold mb-3 group-hover:text-primary transition-colors">Team Hours & Capacity Tracker</h2>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Self-initiated Power Apps + Power BI dashboard providing real-time team capacity visibility, weekly hours tracking, and budget monitoring via SharePoint.</p>
+<div class="flex flex-wrap gap-1.5 mb-6">
+<span class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-black tracking-wider uppercase rounded-md border border-secondary/20">Power Apps</span>
+<span class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-wider uppercase rounded-md border border-primary/20">Power BI</span>
+<span class="px-2.5 py-1 bg-on-surface-variant/10 text-on-surface-variant text-[10px] font-black tracking-wider uppercase rounded-md border border-on-surface-variant/20">SharePoint</span>
+</div>
+</div>
+<a href="projects/team-hours-tracking.html" class="inline-block w-full bg-tertiary-container text-tertiary px-6 py-3 rounded-xl font-headline font-bold text-xs tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95 uppercase text-center">View Details</a>
+</div>
+
+<!-- 8. Jira SLA Tracker -->
+<div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between hover-lift group" data-categories="power">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-primary/20">
+<span class="material-symbols-outlined text-primary text-2xl">timer</span>
+</div>
+<div class="px-2.5 py-1 bg-primary/10 border border-primary/20 rounded-md text-[10px] font-black uppercase tracking-wider text-primary">Power Apps · Jira</div>
+</div>
+<h2 class="font-headline text-2xl font-bold mb-3 group-hover:text-primary transition-colors">Jira SLA Tracker</h2>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Personal Power App tracking 35+ tickets/month with 100% SLA visibility and zero breaches missed, pulling live data from Jira via Power Automate.</p>
+<div class="flex flex-wrap gap-1.5 mb-6">
+<span class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-wider uppercase rounded-md border border-primary/20">Power Apps</span>
+<span class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-black tracking-wider uppercase rounded-md border border-secondary/20">Jira</span>
+<span class="px-2.5 py-1 bg-tertiary/10 text-tertiary text-[10px] font-black tracking-wider uppercase rounded-md border border-tertiary/20">Power Automate</span>
+</div>
+</div>
+<a href="projects/jira-sla-tracker.html" class="inline-block w-full bg-tertiary-container text-tertiary px-6 py-3 rounded-xl font-headline font-bold text-xs tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95 uppercase text-center">View Details</a>
+</div>
+
+<!-- 9. AA Green Belt Training -->
+<div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between hover-lift group" data-categories="training rpa">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-tertiary/20">
+<span class="material-symbols-outlined text-tertiary text-2xl">school</span>
+</div>
+<div class="px-2.5 py-1 bg-tertiary/10 border border-tertiary/20 rounded-md text-[10px] font-black uppercase tracking-wider text-tertiary">Training · Certification</div>
+</div>
+<h2 class="font-headline text-2xl font-bold mb-3 group-hover:text-primary transition-colors">AA Green Belt Training Program</h2>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Designed and delivered an Automation Anywhere Green Belt curriculum across 2 cohorts, achieving 100% certification pass rate for 20+ professionals.</p>
+<div class="flex flex-wrap gap-1.5 mb-6">
+<span class="px-2.5 py-1 bg-tertiary/10 text-tertiary text-[10px] font-black tracking-wider uppercase rounded-md border border-tertiary/20">Automation Anywhere</span>
+<span class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-wider uppercase rounded-md border border-primary/20">API</span>
+<span class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-black tracking-wider uppercase rounded-md border border-secondary/20">JavaScript</span>
+</div>
+</div>
+<a href="projects/aa-green-belt.html" class="inline-block w-full bg-tertiary-container text-tertiary px-6 py-3 rounded-xl font-headline font-bold text-xs tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95 uppercase text-center">View Details</a>
+</div>
+
+<!-- 10. WBD Bot Portfolio Stabilization -->
+<div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between hover-lift group" data-categories="rpa">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-primary/20">
+<span class="material-symbols-outlined text-primary text-2xl">health_and_safety</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="px-2.5 py-1 bg-primary/10 border border-primary/20 rounded-md text-[10px] font-black uppercase tracking-wider text-primary">RPA · Support</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 bg-secondary/10 border border-secondary/20 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary proposed-dot"></span>
+<span class="text-[9px] font-black uppercase tracking-wider text-secondary">Monitoring</span>
+</div>
+</div>
+</div>
+<h2 class="font-headline text-2xl font-bold mb-3 group-hover:text-primary transition-colors">WBD Bot Portfolio Stabilization</h2>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Inherited and stabilized 40+ UiPath bots at Warner Bros. Discovery — eliminated hardcoded credentials, resolved selector failures, and established same-day resolution protocols.</p>
+<div class="flex flex-wrap gap-1.5 mb-6">
+<span class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-wider uppercase rounded-md border border-primary/20">UiPath</span>
+<span class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-black tracking-wider uppercase rounded-md border border-secondary/20">Orchestrator</span>
+</div>
+</div>
+<a href="projects/wbd-bot-migration.html" class="inline-block w-full bg-tertiary-container text-tertiary px-6 py-3 rounded-xl font-headline font-bold text-xs tracking-widest hover:bg-tertiary hover:text-on-tertiary transition-all active:scale-95 uppercase text-center">View Details</a>
+</div>
+
+<!-- 11. Agentic Email Intelligence -->
+<div class="project-card glass-card rounded-2xl p-8 flex flex-col justify-between hover-lift group" data-categories="ai rpa">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="p-3 bg-surface-container-lowest rounded-xl border border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-2xl">psychology</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="px-2.5 py-1 bg-secondary/10 border border-secondary/20 rounded-md text-[10px] font-black uppercase tracking-wider text-secondary">AI · Agentic</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 bg-tertiary/10 border border-tertiary/20 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary proposed-dot"></span>
+<span class="text-[9px] font-black uppercase tracking-wider text-tertiary">Proposed</span>
+</div>
+</div>
+</div>
+<h2 class="font-headline text-2xl font-bold mb-3 group-hover:text-secondary transition-colors">Agentic Email Intelligence &amp; Bot Monitoring</h2>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">UiPath Maestro agent autonomously classifying a shared inbox, detecting zombie bots, logging to SharePoint, surfacing insights in Power BI with HITL escalation for edge cases.</p>
+<div class="flex flex-wrap gap-1.5 mb-6">
+<span class="px-2.5 py-1 bg-secondary/10 text-secondary text-[10px] font-black tracking-wider uppercase rounded-md border border-secondary/20">UiPath Maestro</span>
+<span class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black tracking-wider uppercase rounded-md border border-primary/20">Power BI</span>
+<span class="px-2.5 py-1 bg-on-surface-variant/10 text-on-surface-variant text-[10px] font-black tracking-wider uppercase rounded-md border border-on-surface-variant/20">SharePoint</span>
+</div>
+</div>
+<a href="projects/wbd-email-triage.html" class="inline-block w-full bg-secondary-container text-secondary px-6 py-3 rounded-xl font-headline font-bold text-xs tracking-widest hover:bg-secondary hover:text-on-secondary transition-all active:scale-95 uppercase text-center">View Details</a>
+</div>
+
+</div><!-- /project-grid -->
+
+<!-- Empty state message -->
+<div id="empty-state" class="hidden text-center py-24">
+<span class="material-symbols-outlined text-on-surface-variant/30 text-6xl mb-4 block">search_off</span>
+<p class="text-on-surface-variant font-headline font-bold text-xl">No projects in this category yet.</p>
+</div>
+
 </main>
+
 <!-- Footer -->
 <footer class="bg-surface-container-lowest w-full py-16 border-t border-[#a5cbea]/10">
 <div class="flex flex-col md:flex-row justify-between items-center px-8 gap-10 max-w-7xl mx-auto">
@@ -344,14 +439,49 @@ View Details
 <a class="hover:text-secondary transition-all duration-300 hover:-translate-y-1" href="#">Email</a>
 </div>
 <div class="font-body text-[10px] tracking-widest font-medium uppercase text-[#a5cbea]/30 text-center">
-            © 2025 Alexander Cortez | RPA &amp; AI Engineer
-        </div>
+© 2025 Alexander Cortez | RPA &amp; AI Engineer
+</div>
 </div>
 </footer>
+
 <!-- Background Decoration -->
 <div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden">
 <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 blur-[150px] rounded-full"></div>
 <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-tertiary/10 blur-[150px] rounded-full"></div>
 <div class="absolute top-[30%] right-[10%] w-[20%] h-[20%] bg-secondary/5 blur-[100px] rounded-full"></div>
 </div>
+
+<!-- Filter Script -->
+<script>
+(function(){
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards   = document.querySelectorAll('.project-card');
+    const empty   = document.getElementById('empty-state');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Update active button
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+            let visible = 0;
+
+            cards.forEach(card => {
+                const cats = (card.dataset.categories || '').split(' ');
+                const show = filter === 'all' || cats.includes(filter);
+                if (show) {
+                    card.classList.remove('hidden-card');
+                    visible++;
+                } else {
+                    card.classList.add('hidden-card');
+                }
+            });
+
+            empty.classList.toggle('hidden', visible > 0);
+        });
+    });
+})();
+</script>
+
 </body></html>

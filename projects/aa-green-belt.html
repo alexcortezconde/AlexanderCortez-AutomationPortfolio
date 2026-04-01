@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AA Green Belt Training Program | Alexander Cortez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config={darkMode:"class",theme:{extend:{colors:{
+    "primary":"#a5cbea","secondary":"#8fd1de","tertiary":"#ffb689","on-surface":"#d0e5fa",
+    "surface":"#001524","background":"#001524","surface-container-low":"#071d2d",
+    "surface-container":"#0c2131","surface-container-high":"#172c3c",
+    "surface-container-highest":"#233747","surface-container-lowest":"#00101c",
+    "on-surface-variant":"#c2c7cd","outline-variant":"#42474d",
+    "primary-container":"#003049","secondary-container":"#005662","tertiary-container":"#4c2100",
+    "on-primary":"#05344d","on-secondary":"#00363e","on-tertiary":"#512300",
+  },fontFamily:{"headline":["Space Grotesk"],"body":["Inter"],"label":["Inter"]},
+  borderRadius:{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"}}}}
+</script>
+<style>
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+  body{background-color:#001524;color:#d0e5fa;font-family:'Inter',sans-serif}
+  .glass-panel{background:rgba(35,55,71,.4);backdrop-filter:blur(16px);border:1px solid rgba(66,71,77,.15)}
+  .fn-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+  .fn-track{display:flex;align-items:flex-start;min-width:620px;padding:28px 8px 12px;gap:0}
+  .fn-node{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:112px;opacity:.2;transition:opacity .55s ease;position:relative}
+  .fn-node.fn-active{opacity:1}
+  .fn-icon{width:64px;height:64px;border-radius:16px;background:#00101c;border:1px solid rgba(165,203,234,.1);display:flex;align-items:center;justify-content:center;transition:box-shadow .6s ease,border-color .6s ease;position:relative;overflow:hidden}
+  #fn-clock.fn-active .fn-icon{box-shadow:0 0 24px rgba(255,182,137,.5);border-color:rgba(255,182,137,.4)}
+  #fn-robot.fn-active .fn-icon{box-shadow:0 0 24px rgba(165,203,234,.5);border-color:rgba(165,203,234,.4)}
+  #fn-sap.fn-active   .fn-icon{box-shadow:0 0 24px rgba(143,209,222,.5);border-color:rgba(143,209,222,.4)}
+  #fn-excel.fn-active .fn-icon{box-shadow:0 0 24px rgba(255,182,137,.5);border-color:rgba(255,182,137,.4)}
+  #fn-s3.fn-complete  .fn-icon{box-shadow:0 0 32px rgba(165,203,234,.6),0 0 64px rgba(143,209,222,.2);border-color:rgba(165,203,234,.6)}
+  #fn-s3.fn-complete .fn-icon::after{content:'';position:absolute;inset:-6px;border-radius:20px;border:1.5px solid rgba(165,203,234,.4);animation:ripple .9s ease-out .2s 2}
+  @keyframes ripple{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.5);opacity:0}}
+  .fn-title{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:10px;text-transform:uppercase;letter-spacing:.1em;margin-top:10px;text-align:center;line-height:1.3}
+  .fn-sub{font-size:9px;color:rgba(194,199,205,.55);text-align:center;margin-top:3px;line-height:1.4}
+  .fn-typing{display:flex;gap:4px;justify-content:center;height:10px;margin-top:5px}
+  .fn-typing span{width:4px;height:4px;border-radius:50%;background:#8fd1de;opacity:0;transform:translateY(0)}
+  #fn-sap.fn-active .fn-typing span:nth-child(1){animation:typedot .55s ease-in-out .05s 4}
+  #fn-sap.fn-active .fn-typing span:nth-child(2){animation:typedot .55s ease-in-out .22s 4}
+  #fn-sap.fn-active .fn-typing span:nth-child(3){animation:typedot .55s ease-in-out .39s 4}
+  @keyframes typedot{0%,100%{opacity:0;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+  .fn-conn{flex:1;position:relative;min-width:32px;height:64px;display:flex;align-items:center}
+  .fn-line{position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(165,203,234,.1)}
+  .fn-dot{position:absolute;top:50%;left:0%;width:10px;height:10px;border-radius:50%;background:#a5cbea;box-shadow:0 0 8px #a5cbea,0 0 18px rgba(165,203,234,.5);transform:translate(-50%,-50%);opacity:0;pointer-events:none}
+  .fn-dot.dot-run{animation:dotgo .62s cubic-bezier(.4,0,.2,1) forwards}
+  @keyframes dotgo{0%{left:0%;opacity:0}8%{opacity:1}92%{opacity:1}100%{left:100%;opacity:0}}
+  .fn-blinking .fn-icon{animation:rblink .22s ease-in-out 4}
+  @keyframes rblink{0%,100%{background:#00101c}50%{background:rgba(165,203,234,.22)}}
+  .fn-desc-row{display:flex;min-width:620px}.fn-desc{flex-shrink:0;width:112px;padding:0 4px}.fn-desc-gap{flex:1}
+</style>
+</head>
+<body class="selection:bg-tertiary/30">
+<nav class="fixed top-0 w-full z-50 bg-[#001524]/80 backdrop-blur-xl border-b border-[#a5cbea]/10 shadow-2xl shadow-[#001524]/50">
+<div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+<a class="font-headline text-xl font-black tracking-tighter text-[#a5cbea] hover:opacity-80 transition-opacity" href="../index.html">Alexander Cortez</a>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#ffb689] border-b-2 border-[#ffb689] pb-1" href="../projects.html">Projects</a>
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../experience.html">Experience</a>
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../about.html">About</a>
+<a class="font-headline font-bold tracking-tight text-sm uppercase text-[#a5cbea]/70 hover:text-[#a5cbea] transition-colors" href="../contact.html">Contact</a>
+<a href="../assets/AlexanderCortez_UiPath_CV.pdf" download class="ml-4 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-xs uppercase rounded-md hover:scale-95 transition-transform">Resume</a>
+</div></div></nav>
+
+<main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+<a class="group inline-flex items-center gap-2 text-tertiary mb-14 hover:-translate-x-1 transition-transform duration-300" href="../projects.html">
+  <span class="material-symbols-outlined text-sm">arrow_back</span>
+  <span class="font-label text-xs tracking-widest uppercase font-bold">Back to Projects</span>
+</a>
+
+<header class="mb-16">
+  <span class="font-label text-tertiary text-xs font-black tracking-[0.25em] uppercase mb-5 block">Training Case Study · Bosch</span>
+  <h1 class="font-headline text-5xl md:text-7xl font-black tracking-tighter leading-none text-on-surface mb-8">
+    AA Green Belt<br/><span class="text-secondary">Training Program</span>
+  </h1>
+  <div class="flex flex-wrap gap-4">
+    <div class="flex items-center gap-2 px-4 py-2 bg-tertiary/10 border border-tertiary/20 rounded-full">
+      <span class="font-headline font-black text-tertiary text-lg">20+</span>
+      <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Engineers certified</span>
+    </div>
+    <div class="flex items-center gap-2 px-4 py-2 bg-secondary/10 border border-secondary/20 rounded-full">
+      <span class="font-headline font-black text-secondary text-lg">2</span>
+      <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Cohorts delivered</span>
+    </div>
+    <div class="flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
+      <span class="font-headline font-black text-primary text-lg">100%</span>
+      <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Certification pass rate</span>
+    </div>
+  </div>
+  <div class="h-[2px] w-24 bg-gradient-to-r from-tertiary to-transparent mt-10"></div>
+</header>
+
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
+  <section class="md:col-span-8 glass-panel rounded-2xl p-8 md:p-10">
+    <p class="text-on-surface-variant text-base leading-relaxed mb-8">Selected by Bosch's automation center of excellence to design and deliver an Automation Anywhere Green Belt certification curriculum — covering bot architecture, API integration, JavaScript, and Orchestrator. Ran 2 cohorts with 20+ professionals certified and a 100% pass rate.</p>
+    <div class="pt-6 border-t border-outline-variant/10 flex items-center gap-3">
+      <span class="material-symbols-outlined text-on-surface-variant text-sm">person</span>
+      <span class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">My Role:</span>
+      <span class="text-[11px] text-on-surface-variant">Trainer &amp; Curriculum Developer — selected by leadership, designed and delivered independently</span>
+    </div>
+  </section>
+
+  <section class="md:col-span-4 bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
+    <h2 class="font-headline text-sm font-black text-primary mb-8 uppercase tracking-widest">Curriculum Highlights</h2>
+    <ul class="space-y-5">
+      <li class="flex items-center gap-4">
+        <div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-primary flex-shrink-0">
+          <span class="material-symbols-outlined text-lg">api</span>
+        </div>
+        <div><p class="text-sm font-bold text-on-surface">API Calls</p><p class="text-xs text-on-surface-variant">REST integration exercises</p></div>
+      </li>
+      <li class="flex items-center gap-4">
+        <div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-secondary flex-shrink-0">
+          <span class="material-symbols-outlined text-lg">code</span>
+        </div>
+        <div><p class="text-sm font-bold text-on-surface">JS Scripting</p><p class="text-xs text-on-surface-variant">Browser &amp; data manipulation</p></div>
+      </li>
+      <li class="flex items-center gap-4">
+        <div class="w-10 h-10 rounded-lg bg-tertiary-container flex items-center justify-center text-tertiary flex-shrink-0">
+          <span class="material-symbols-outlined text-lg">travel_explore</span>
+        </div>
+        <div><p class="text-sm font-bold text-on-surface">UI Scraping</p><p class="text-xs text-on-surface-variant">Web table &amp; dynamic data</p></div>
+      </li>
+      <li class="flex items-center gap-4">
+        <div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-on-surface flex-shrink-0">
+          <span class="material-symbols-outlined text-lg">error</span>
+        </div>
+        <div><p class="text-sm font-bold text-on-surface">Error Handling</p><p class="text-xs text-on-surface-variant">Retry logic &amp; fallbacks</p></div>
+      </li>
+    </ul>
+  </section>
+</div>
+
+<section class="glass-panel rounded-xl p-8 md:p-10 mb-6 relative overflow-hidden">
+  <div class="absolute -top-10 -right-10 w-64 h-64 bg-secondary/5 rounded-full blur-[80px] pointer-events-none"></div>
+  <div class="flex items-center gap-3 mb-8">
+    <span class="material-symbols-outlined text-primary text-lg">account_tree</span>
+    <h2 class="font-headline text-xl font-black text-on-surface uppercase tracking-wider">Training Flow</h2>
+    <div class="ml-2 flex items-center gap-1.5 px-2.5 py-1 bg-primary/10 border border-primary/20 rounded-full">
+      <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+      <span class="text-[9px] font-black uppercase tracking-widest text-primary">Live Simulation</span>
+    </div>
+  </div>
+  <div class="fn-wrap">
+    <div class="fn-track">
+      <div class="fn-node" id="fn-clock">
+        <div class="fn-icon"><span class="material-symbols-outlined text-2xl" style="color:#ffb689">find_in_page</span></div>
+        <div class="fn-title" style="color:#ffb689">Gap Analysis</div>
+        <div class="fn-sub">Material gaps<br/>identified</div>
+      </div>
+      <div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="c1"></div></div>
+      <div class="fn-node" id="fn-robot">
+        <div class="fn-icon"><span class="material-symbols-outlined text-2xl" style="color:#a5cbea">edit_document</span></div>
+        <div class="fn-title" style="color:#a5cbea">Curriculum Dev</div>
+        <div class="fn-sub">New content<br/>&amp; labs created</div>
+      </div>
+      <div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="c2"></div></div>
+      <div class="fn-node" id="fn-sap">
+        <div class="fn-icon"><span class="material-symbols-outlined text-2xl" style="color:#8fd1de">groups</span></div>
+        <div class="fn-title" style="color:#8fd1de">Cohort 1</div>
+        <div class="fn-sub">10+ participants<br/>trained</div>
+        <div class="fn-typing" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+      <div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="c3"></div></div>
+      <div class="fn-node" id="fn-excel">
+        <div class="fn-icon"><span class="material-symbols-outlined text-2xl" style="color:#ffb689">groups</span></div>
+        <div class="fn-title" style="color:#ffb689">Cohort 2</div>
+        <div class="fn-sub">Refined content<br/>delivered</div>
+      </div>
+      <div class="fn-conn"><div class="fn-line"></div><div class="fn-dot" id="c4"></div></div>
+      <div class="fn-node" id="fn-s3">
+        <div class="fn-icon"><span class="material-symbols-outlined text-2xl" style="color:#a5cbea">workspace_premium</span></div>
+        <div class="fn-title" style="color:#a5cbea">Certified</div>
+        <div class="fn-sub">20+ engineers<br/>AA licensed ✓</div>
+      </div>
+    </div>
+    <div class="fn-desc-row mt-2">
+      <div class="fn-desc"><p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Analyzed existing material — identified missing API, JS, and error handling modules</p></div>
+      <div class="fn-desc-gap"></div>
+      <div class="fn-desc"><p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Built updated slides, practical labs, and real-world bot exercises from scratch</p></div>
+      <div class="fn-desc-gap"></div>
+      <div class="fn-desc"><p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Delivered Cohort 1 in April — 10+ participants, hands-on API &amp; JS exercises</p></div>
+      <div class="fn-desc-gap"></div>
+      <div class="fn-desc"><p class="text-[10px] text-on-surface-variant/60 leading-relaxed">Delivered Cohort 2 in May with refined content based on cohort 1 feedback</p></div>
+      <div class="fn-desc-gap"></div>
+      <div class="fn-desc"><p class="text-[10px] text-on-surface-variant/60 leading-relaxed">All 20+ participants obtained AA Green Belt certification and internal bot license</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+  <section class="md:col-span-8 glass-panel rounded-2xl p-8 md:p-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="material-symbols-outlined text-error text-xl">report_problem</span>
+          <h2 class="font-headline font-black text-xs uppercase tracking-widest text-error">Problem</h2>
+        </div>
+        <p class="text-on-surface-variant text-sm leading-relaxed">The official AA Green Belt material was outdated — covering only basic variable assignment and loops. Advanced skills like API integration, JavaScript, UI scraping, and error handling were absent, leaving certified engineers unprepared for production bot development.</p>
+      </div>
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="material-symbols-outlined text-secondary text-xl">build</span>
+          <h2 class="font-headline font-black text-xs uppercase tracking-widest text-secondary">Solution</h2>
+        </div>
+        <p class="text-on-surface-variant text-sm leading-relaxed">Rebuilt the curriculum from scratch: created updated slide decks, designed hands-on labs for API calls, JS scripting, UI scraping, and error handling, and delivered two full Green Belt cohorts from planning through certification exam.</p>
+      </div>
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="material-symbols-outlined text-primary text-xl">emoji_events</span>
+          <h2 class="font-headline font-black text-xs uppercase tracking-widest text-primary">Result</h2>
+        </div>
+        <p class="text-on-surface-variant text-sm leading-relaxed">20+ engineers obtained AA Green Belt certification with a 100% pass rate across both cohorts — each gaining Orchestrator access and the skills to independently build and deploy production-quality automations.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="md:col-span-5 flex flex-col gap-4">
+    <div class="flex-1 bg-gradient-to-br from-primary-container/60 to-surface-container-low p-8 rounded-xl border border-primary/10">
+      <div class="flex items-end justify-between mb-2">
+        <span class="font-headline font-black text-6xl text-tertiary">20+</span>
+        <span class="material-symbols-outlined text-tertiary/40 text-4xl">workspace_premium</span>
+      </div>
+      <p class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Engineers AA certified</p>
+      <p class="text-[11px] text-on-surface-variant/60 mt-2 leading-relaxed">Every participant earned their Green Belt certification and unlocked AA Orchestrator access for independent bot development.</p>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-surface-container-low p-6 rounded-xl border border-secondary/10">
+        <span class="font-headline font-black text-3xl text-secondary">2</span>
+        <p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mt-2">Cohorts delivered</p>
+        <p class="text-[10px] text-on-surface-variant/50 mt-1">Apr &amp; May 2025</p>
+      </div>
+      <div class="bg-surface-container-low p-6 rounded-xl border border-primary/10">
+        <span class="font-headline font-black text-3xl text-primary">100%</span>
+        <p class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mt-2">Pass rate</p>
+        <p class="text-[10px] text-on-surface-variant/50 mt-1">All participants certified</p>
+      </div>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer class="w-full py-12 border-t border-[#a5cbea]/5 bg-[#001524]">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 gap-6 max-w-7xl mx-auto">
+<span class="font-headline font-bold text-[#ffb689]">Alexander Cortez</span>
+<span class="font-body text-xs tracking-widest uppercase text-[#a5cbea]/50">© 2025 Alexander Cortez | RPA &amp; AI Engineer</span>
+<div class="flex gap-6">
+<a class="text-[#a5cbea]/50 hover:text-[#8fd1de] transition-colors font-body text-xs tracking-widest uppercase" href="#">LinkedIn</a>
+<a class="text-[#a5cbea]/50 hover:text-[#8fd1de] transition-colors font-body text-xs tracking-widest uppercase" href="#">GitHub</a>
+<a class="text-[#a5cbea]/50 hover:text-[#8fd1de] transition-colors font-body text-xs tracking-widest uppercase" href="#">Email</a>
+</div></div></footer>
+
+<script>
+(function(){
+  const CYCLE=7200;
+  function activate(id){document.getElementById('fn-'+id)?.classList.add('fn-active')}
+  function complete(id){document.getElementById('fn-'+id)?.classList.add('fn-active','fn-complete')}
+  function blink(id){const el=document.getElementById('fn-'+id);el?.classList.add('fn-active','fn-blinking');setTimeout(()=>el?.classList.remove('fn-blinking'),1000)}
+  function dot(id){const el=document.getElementById(id);if(!el)return;el.classList.remove('dot-run');void el.offsetWidth;el.classList.add('dot-run')}
+  function reset(){document.querySelectorAll('.fn-node').forEach(n=>n.classList.remove('fn-active','fn-complete','fn-blinking'));document.querySelectorAll('.fn-dot').forEach(d=>d.classList.remove('dot-run'))}
+  function runCycle(){
+    reset();const s=(fn,t)=>setTimeout(fn,t);
+    s(()=>activate('clock'),80);s(()=>dot('c1'),700);s(()=>blink('robot'),1300);
+    s(()=>dot('c2'),1900);s(()=>activate('sap'),2550);s(()=>dot('c3'),3200);
+    s(()=>activate('excel'),3850);s(()=>dot('c4'),4500);s(()=>complete('s3'),5150);
+    setTimeout(runCycle,CYCLE);
+  }
+  runCycle();
+})();
+</script>
+</body></html>
